@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ConsoleApp13\Encrypter\Encrypter.csproj" />
+    <ProjectReference Include="..\APMCore\APMCore.csproj" />
+  </ItemGroup>
+
+</Project>

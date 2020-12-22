@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>APManagerC2</RootNamespace>
+    <AssemblyName>APManagerC2</AssemblyName>
+    <ApplicationIcon>Resources\ICON.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Model\**" />
+    <EmbeddedResource Remove="Model\**" />
+    <EntityDeploy Remove="Model\**" />
+    <None Remove="Model\**" />
+    <Page Remove="Model\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\defaultavatar.png" />
+    <None Remove="Resources\Images\AddDataItem.png" />
+    <None Remove="Resources\Images\AddMain.png" />
+    <None Remove="Resources\Images\AddTimeStamp.png" />
+    <None Remove="Resources\Images\Clean.png" />
+    <None Remove="Resources\Images\CleanDC.png" />
+    <None Remove="Resources\Images\EditMode.png" />
+    <None Remove="Resources\Images\InvertSelection.png" />
+    <None Remove="Resources\Images\Load.png" />
+    <None Remove="Resources\Images\Menu.png" />
+    <None Remove="Resources\Images\Notice.png" />
+    <None Remove="Resources\Images\randomData.png" />
+    <None Remove="Resources\Images\Refresh.png" />
+    <None Remove="Resources\Images\Save.png" />
+    <None Remove="Resources\Images\Save2.png" />
+    <None Remove="Resources\Images\SelAll.png" />
+    <None Remove="Resources\Images\Setting.png" />
+    <None Remove="Resources\Images\SortFilter.png" />
+    <None Remove="Resources\Images\ToolBox.png" />
+    <None Remove="Resources\Images\txtIco.png" />
+    <None Remove="Resources\Images\Warning.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.113.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\APMControl\APMControl.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\defaultavatar.png" />
+    <Resource Include="Resources\Images\AddDataItem.png" />
+    <Resource Include="Resources\Images\AddMain.png" />
+    <Resource Include="Resources\Images\AddTimeStamp.png" />
+    <Resource Include="Resources\Images\Clean.png" />
+    <Resource Include="Resources\Images\CleanDC.png" />
+    <Resource Include="Resources\Images\EditMode.png" />
+    <Resource Include="Resources\Images\InvertSelection.png" />
+    <Resource Include="Resources\Images\Load.png" />
+    <Resource Include="Resources\Images\Menu.png" />
+    <Resource Include="Resources\Images\Notice.png" />
+    <Resource Include="Resources\Images\randomData.png" />
+    <Resource Include="Resources\Images\Refresh.png" />
+    <Resource Include="Resources\Images\Save.png" />
+    <Resource Include="Resources\Images\Save2.png" />
+    <Resource Include="Resources\Images\SelAll.png" />
+    <Resource Include="Resources\Images\Setting.png" />
+    <Resource Include="Resources\Images\SortFilter.png" />
+    <Resource Include="Resources\Images\ToolBox.png" />
+    <Resource Include="Resources\Images\txtIco.png" />
+    <Resource Include="Resources\Images\Warning.png" />
+  </ItemGroup>
+
+</Project>

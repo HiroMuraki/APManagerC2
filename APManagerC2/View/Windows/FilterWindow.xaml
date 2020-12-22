@@ -1,0 +1,70 @@
+﻿<Window x:Class="APManagerC2.View.FilterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:View="clr-namespace:APManagerC2.View" x:Name="WindowSelf"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
+        Height="160" Width="350" ResizeMode="NoResize"
+        DataContext="{Binding ElementName=WindowSelf}"
+        FocusManager.FocusedElement="{Binding ElementName=InputBox}"
+        Title="{Binding Filter}" KeyDown="Window_KeyDown">
+    <WindowChrome.WindowChrome>
+        <WindowChrome UseAeroCaptionButtons="False" CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+    <Grid Background="{StaticResource ColorMainMediumBlack}">
+        <!--Grid.Clip>
+            <RectangleGeometry RadiusX="15" RadiusY="15">
+                <RectangleGeometry.Rect>
+                    <MultiBinding Converter="{StaticResource GetRectangle}">
+                        <Binding ElementName="WindowSelf" Path="Width"/>
+                        <Binding ElementName="WindowSelf" Path="Height"/>
+                        <Binding ElementName="WindowSelf" Path="Margin"/>
+                    </MultiBinding>
+                </RectangleGeometry.Rect>
+            </RectangleGeometry>
+        </Grid.Clip-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{StaticResource ColorMainDarkBlue}" MouseLeftButtonDown="Window_Move">
+            <Label Grid.Column="1" FontSize="16" Foreground="White" Content="{Binding Filter.Name}"
+                   Margin="15,5,50,5" Padding="0" IsHitTestVisible="False" VerticalContentAlignment="Center"/>
+            <View:GeneralButton Content="&#x2573;" Width="35" Height="35" Foreground="White" Click="Window_Close" HorizontalAlignment="Right"/>
+        </Grid>
+        <Grid Grid.Row="1" Background="{StaticResource ColorMainMediumBlack}">
+            <Grid Grid.Row="1" Margin="10,0" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <View:GeneralButton x:Name="ColorLabel" 
+                                        Background="{Binding Filter.Identifier,Converter={StaticResource StringToColor}}" 
+                                        Width="30" CornerRadius="2" ToolTip="选择标识色" Click="Identifier_Click"
+                                        BorderBrush="{StaticResource ColorMainLigthWhite}" BorderThickness="2"/>
+                    <View:LabelTextBox Grid.Column="1" x:Name="InputBox" Text="{Binding Filter.Name}"
+                                       VerticalAlignment="Center" Label="标签名" Height="35" Margin="5,0"/>
+                </Grid>
+                <View:GeneralButton Grid.Column="1" Content="提交" Width="60" HorizontalAlignment="Right" CornerRadius="1"
+                                    Height="35" FontSize="16" Click="Save_Click" VerticalAlignment="Bottom"
+                                    Background="{StaticResource ColorMainLightYellow}" 
+                                    Foreground="{StaticResource ColorMainDarkBlack}"/>
+            </Grid>
+        </Grid>
+        <Popup x:Name="ColorPickerPopup" Placement="MousePoint" AllowsTransparency="True" StaysOpen="False">
+            <Popup.Effect>
+                <DropShadowEffect BlurRadius="3" ShadowDepth="1" Opacity="0.5"/>
+            </Popup.Effect>
+            <Border Background="{StaticResource ColorMainLigthWhite}" CornerRadius="10"
+                    BorderThickness="1" BorderBrush="{StaticResource ColorMainLightYellow}" Width="300" Height="100">
+                <View:ColorPicker HexValue="{Binding Filter.Identifier,Mode=TwoWay}" Margin="10"/>
+            </Border>
+        </Popup>
+    </Grid>
+</Window>

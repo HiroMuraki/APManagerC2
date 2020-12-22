@@ -1,0 +1,66 @@
+﻿<Window x:Class="APManagerC2.View.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:View="clr-namespace:APManagerC2.View"
+        mc:Ignorable="d" x:Name="WindowSelf" WindowStartupLocation="CenterScreen"
+        DataContext="{Binding ElementName=WindowSelf,Path=UserData}"
+        FocusManager.FocusedElement="{Binding ElementName=InputBox}"
+        ResizeMode="NoResize"
+        Title="MainWindow" Height="260" Width="350" KeyDown="Window_KeyDown">
+    <WindowChrome.WindowChrome>
+        <WindowChrome UseAeroCaptionButtons="False" CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+    <Grid Background="{StaticResource ColorMainDarkBlue}">
+        <!--Grid.Clip>
+            <RectangleGeometry RadiusX="15" RadiusY="15">
+                <RectangleGeometry.Rect>
+                    <MultiBinding Converter="{StaticResource GetRectangle}">
+                        <Binding ElementName="WindowSelf" Path="Width"/>
+                        <Binding ElementName="WindowSelf" Path="Height"/>
+                        <Binding ElementName="WindowSelf" Path="Margin"/>
+                    </MultiBinding>
+                </RectangleGeometry.Rect>
+            </RectangleGeometry>
+        </Grid.Clip-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{StaticResource ColorMainDarkBlue}" MouseLeftButtonDown="Window_Move">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal">
+                <View:GeneralButton Content="{StaticResource WindowMinimum}" Foreground="White" Width="35" Height="35" Click="Window_Minimum"/>
+                <View:GeneralButton Content="{StaticResource WindowClose}" Foreground="White" Width="35" Height="35" Click="Window_Close"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Background="White">
+            <Grid ClipToBounds="True">
+                <Border Background="{Binding Avatar,Converter={StaticResource StringToUserAvatar}}">
+                    <Border.Effect>
+                        <BlurEffect Radius="100" KernelType="Gaussian"/>
+                    </Border.Effect>
+                </Border>
+                <Border Background="{StaticResource ColorMainDarkBlack}" Opacity="0.3" MouseLeftButtonDown="Window_Move"/>
+            </Grid>
+            <StackPanel VerticalAlignment="Center" Margin="10,0">
+                <Button Style="{StaticResource AvatarButton}" Width="90" Height="90"
+                        VerticalAlignment="Center" Click="Login_Click"
+                        Background="{Binding Avatar,Converter={StaticResource StringToUserAvatar}}"/>
+                <Label Content="{Binding UserName}" 
+                           Foreground="{StaticResource ColorMainLigthWhite}" VerticalAlignment="Center"
+                           HorizontalAlignment="Center" FontSize="22" IsHitTestVisible="False" Margin="0"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2" Background="{StaticResource ColorMainDarkBlue}">
+            <View:IconTextBox x:Name="InputBox" 
+                 Text="{Binding ElementName=WindowSelf,Path=InputPassword,UpdateSourceTrigger=PropertyChanged}" Height="30" 
+                 Width="210">
+                <View:IconTextBox.Icon>
+                    <Image Source="{StaticResource TxtIco}"/>
+                </View:IconTextBox.Icon>
+            </View:IconTextBox>
+        </Grid>
+    </Grid>
+</Window>
