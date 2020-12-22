@@ -225,7 +225,7 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Border Grid.Row="0" Background="{Binding HexValue,RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource StringToColor}}"/>
-                            <View:LabelTextBox Label="#" Grid.Row="1" Text="{Binding Path=HexValue,RelativeSource={RelativeSource TemplatedParent},UpdateSourceTrigger=PropertyChanged}" FontSize="16"
+                            <View:LabelTextBox Grid.Row="1" Text="{Binding Path=HexValue,RelativeSource={RelativeSource TemplatedParent},UpdateSourceTrigger=PropertyChanged}" FontSize="16"
                                                BorderThickness="0"/>
                         </Grid>
                         <Grid Grid.Column="1" VerticalAlignment="Center">
