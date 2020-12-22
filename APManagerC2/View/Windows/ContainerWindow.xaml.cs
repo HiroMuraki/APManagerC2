@@ -113,6 +113,14 @@ namespace APManagerC2.View {
         private void ClearEmptyPairs_Click(object sender, RoutedEventArgs e) {
             _commandHandler.ClearEmptyPairs();
         }
+        /// <summary>
+        /// 重新加载Pair组
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Refresh_Click(object sender, RoutedEventArgs e) {
+            _commandHandler.Refresh();
+        }
         #endregion
 
         #region 窗口操作
@@ -150,5 +158,6 @@ namespace APManagerC2.View {
             return (sender as FrameworkElement).Tag as APMControl.Filter;
         }
 
+        
     }
 }

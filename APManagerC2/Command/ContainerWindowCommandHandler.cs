@@ -73,6 +73,12 @@ namespace APManagerC2.Command {
         public async void ClearEmptyPairs() {
             int impacts = await _container.ClearEmptyPairsAsync();
         }
+        /// <summary>
+        /// 重新加载Pair组
+        /// </summary>
+        public async void Refresh() {
+            await _container.OpenAsync();
+        }
 
         public override void CloseWindow() {
             base.CloseWindow();
@@ -86,10 +92,14 @@ namespace APManagerC2.Command {
                 case Key.F1:
                     AddPair("empty");
                     break;
+                case Key.F5:
+                    Refresh();
+                    break;
                 case Key.Escape:
                     CloseWindow();
                     break;
             }
         }
+
     }
 }

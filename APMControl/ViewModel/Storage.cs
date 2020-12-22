@@ -10,7 +10,7 @@ namespace APMControl {
     using ContainerCollection = DispatchedObservableCollection<Container>;
     using FilterCollection = DispatchedObservableCollection<Filter>;
 
-    public sealed class Storage : APMCore.ViewModel.StorageBase, IStorage {
+    public sealed class Storage : APMCore.ViewModel.StorageBase, IStorage, IDisposable {
         #region 属性
         #region 公共属性
         /// <summary>
@@ -362,6 +362,12 @@ namespace APMControl {
                     }
                 }
             }
+        }
+        #endregion
+
+        #region 特殊方法
+        public void Dispose() {
+            _transaction?.Dispose();
         }
         #endregion
         #endregion

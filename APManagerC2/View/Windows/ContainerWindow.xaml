@@ -200,6 +200,11 @@
                            FontSize="18" Foreground="{StaticResource ColorMainLigthWhite}" MinWidth="50"/>
                 </Grid>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+                    <View:GeneralButton Width="35" Height="35" Foreground="White" Padding="10" Click="Refresh_Click">
+                        <View:GeneralButton.Content>
+                            <Image Source="{StaticResource Refresh}"/>
+                        </View:GeneralButton.Content>
+                    </View:GeneralButton>
                     <View:GeneralButton Content="{StaticResource WindowMinimum}" Width="35" Height="35" Foreground="White"  Click="Window_Minimum"/>
                     <View:GeneralButton Content="{StaticResource WindowMaximum}" Width="35" Height="35" Foreground="White" Click="Window_Maximum"/>
                     <View:GeneralButton Content="{StaticResource WindowClose}" Width="35" Height="35" Foreground="White" Click="Window_Close"/>

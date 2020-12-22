@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace APMControl.Interface {
     using ContainerCollection = DispatchedObservableCollection<Container>;
     using FilterCollection = DispatchedObservableCollection<Filter>;
 
-    public interface IStorage {
+    public interface IStorage : IDisposable {
         /// <summary>
         /// 新建Container所用的模板
         /// </summary>
