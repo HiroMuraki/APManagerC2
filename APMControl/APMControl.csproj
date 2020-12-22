@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ConsoleApp13\Encrypter\Encrypter.csproj" />
     <ProjectReference Include="..\APMCore\APMCore.csproj" />
+    <ProjectReference Include="..\Encrypter\Encrypter.csproj" />
   </ItemGroup>
 
 </Project>

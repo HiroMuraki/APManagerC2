@@ -21,9 +21,9 @@ namespace APManagerC2.Command {
         /// <summary>
         /// 登录
         /// </summary>
-        public void Login() {
+        public async void Login() {
             try {
-                _userData.OpenStorageAsync(_window.InputPassword);
+                await _userData.OpenStorageAsync(_window.InputPassword);
                 _window.DialogResult = true;
             }
             catch (APMControl.APMException.IncorrectUserPasswordException) {
