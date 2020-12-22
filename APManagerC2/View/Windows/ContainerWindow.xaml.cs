@@ -95,7 +95,7 @@ namespace APManagerC2.View {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ModifiyAvatar_Click(object sender, RoutedEventArgs e) {
-            _commandHandler.ModifyAvatar();
+            _commandHandler.SetAvatar();
         }
         /// <summary>
         /// 设置过滤器

@@ -30,7 +30,19 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{StaticResource ColorMainDarkBlue}" MouseLeftButtonDown="Window_Move">
-            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" HorizontalAlignment="Left">
+                <View:GeneralButton Foreground="White" Width="35" Height="35" Padding="5" Click="MakePackage_Click"
+                                    ToolTip="导出并打包数据">
+                    <View:GeneralButton.Content>
+                        <Image Source="{StaticResource PackUserData}"/>
+                    </View:GeneralButton.Content>
+                </View:GeneralButton>
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal">
                 <View:GeneralButton Content="{StaticResource WindowMinimum}" Foreground="White" Width="35" Height="35" Click="Window_Minimum"/>
                 <View:GeneralButton Content="{StaticResource WindowClose}" Foreground="White" Width="35" Height="35" Click="Window_Close"/>
             </StackPanel>

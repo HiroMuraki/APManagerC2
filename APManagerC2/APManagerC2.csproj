@@ -29,6 +29,7 @@
     <None Remove="Resources\Images\Load.png" />
     <None Remove="Resources\Images\Menu.png" />
     <None Remove="Resources\Images\Notice.png" />
+    <None Remove="Resources\Images\PackUserData.png" />
     <None Remove="Resources\Images\randomData.png" />
     <None Remove="Resources\Images\Refresh.png" />
     <None Remove="Resources\Images\Save.png" />
@@ -61,6 +62,7 @@
     <Resource Include="Resources\Images\Load.png" />
     <Resource Include="Resources\Images\Menu.png" />
     <Resource Include="Resources\Images\Notice.png" />
+    <Resource Include="Resources\Images\PackUserData.png" />
     <Resource Include="Resources\Images\randomData.png" />
     <Resource Include="Resources\Images\Refresh.png" />
     <Resource Include="Resources\Images\Save.png" />

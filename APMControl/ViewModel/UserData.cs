@@ -142,8 +142,8 @@ namespace APMControl {
         public async Task CloseStorageAsync() {
             await Task.Run(() => {
                 lock (_storageFileLocker) {
-                    _storage.Dispose();
-                    _dataBase.Close();
+                    _storage?.Dispose();
+                    _dataBase?.Close();
                 }
             });
         }

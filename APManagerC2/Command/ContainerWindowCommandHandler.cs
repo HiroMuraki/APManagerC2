@@ -55,8 +55,10 @@ namespace APManagerC2.Command {
         /// <summary>
         /// 更换数据头像
         /// </summary>
-        public async void ModifyAvatar() {
+        public async void SetAvatar() {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "图像文件|*.jpg;*.png;*.gif;*.bmp|JPG图像|*.jpg;*.jpeg|PNG图像|*.png|BMP图像|*.bmp|GIF图像|*.gif";
+            ofd.Title = $"选择{_container}的头像";
             if (ofd.ShowDialog() == true) {
                 await _container.SetAvatarAsync(ofd.FileName);
             }

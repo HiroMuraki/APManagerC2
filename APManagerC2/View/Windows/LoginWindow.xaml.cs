@@ -51,6 +51,9 @@ namespace APManagerC2.View {
         private void Login_Click(object sender, RoutedEventArgs e) {
             _commandHandler.Login();
         }
+        private void MakePackage_Click(object sender, RoutedEventArgs e) {
+            _commandHandler.MakePackage();
+        }
         #endregion
 
         #region 窗口操作
