@@ -359,7 +359,6 @@ namespace APMControl {
 
         private async void Filter_StatusChangedAsync(object sender, APMCore.FilterStatusSwitchedEventArgs e) {
             Filter filter = sender as Filter;
-            filter.UpdateToSource();
 
             if (IsSingleFilter) {
                 foreach (Filter f in Filters) {

@@ -71,7 +71,7 @@ namespace APMControl {
         public async void ToggleAsync() {
             await Task.Run(() => {
                 lock (_statusLocker) {
-                    IsOn = !IsOn;
+                    ToggleFilter();
                     StatusChanged?.Invoke(this, new FilterStatusSwitchedEventArgs(IsOn));
                 }
             });

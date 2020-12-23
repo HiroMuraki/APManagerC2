@@ -81,6 +81,14 @@ namespace APMCore.ViewModel {
 
         #region 方法
         #region 保护方法
+        protected void ToggleFilter() {
+            IsOn = !IsOn;
+            SQLiteCommand cmd = new SQLiteCommand(DataBase);
+            cmd.CommandText = $@"Update {APM.FiltersTable}
+                                 Set {APM.FilterIsOn} = {IsOn}
+                                 Where {APM.FilterUID} == {FilterUID}";
+            cmd.ExecuteNonQuery();
+        }
         /// <summary>
         /// 复制属性
         /// </summary>
