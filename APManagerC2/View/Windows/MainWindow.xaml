@@ -392,7 +392,8 @@
                                             Background="{StaticResource ColorMainLightBlue}" Foreground="White"
                                             Click="InverseFiltersStatus_Click"/>
                     </Grid>
-                    <ScrollViewer Grid.Row="1" Style="{StaticResource ScrollViewerGeneral}" Margin="-5,0,0,0">
+                    <ScrollViewer Grid.Row="1" Style="{StaticResource ScrollViewerGeneral}" Margin="-5,0,0,0"
+                                  Focusable="False">
                         <ItemsControl ItemsSource="{Binding UserData.Storage.Filters}"
                                       ItemTemplate="{StaticResource ResourceKey=FilterDataTemplate}">
                             <ItemsControl.ItemsPanel>
@@ -446,7 +447,7 @@
                 </Grid>
                 <Grid Grid.Row="1" Background="{StaticResource ColorMainLigthWhite}"
                       Drop="DataLabelArea_Drop" AllowDrop="True">
-                    <ScrollViewer>
+                    <ScrollViewer Focusable="False">
                         <Viewbox VerticalAlignment="Top">
                             <ItemsControl ItemsSource="{Binding UserData.Storage.Containers}"
                                           ItemTemplate="{StaticResource ContainerDataTemplate}">
@@ -488,7 +489,7 @@
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
-                        <View:GeneralButton Width="40" Grid.Column="0" ToolTip="新建数据" 
+                        <View:GeneralButton Width="40" Grid.Column="0" ToolTip="添加容器" 
                                             Padding="10" InitOpacity="0.5" Click="AddContainer_Click">
                             <Image Source="{StaticResource AddMain}"/>
                         </View:GeneralButton>
