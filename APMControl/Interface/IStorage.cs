@@ -84,5 +84,11 @@ namespace APMControl.Interface {
         /// </summary>
         /// <returns>移除的Container数量</returns>
         Task<int> ClearEmptyContainersAsync();
+        /// <summary>
+        /// 将Container内容复制到Contaienr模板
+        /// </summary>
+        /// <param name="container">要复制内容的Container</param>
+        /// <returns></returns>
+        Task SetContainerToTemplateAsync(Container container);
     }
 }

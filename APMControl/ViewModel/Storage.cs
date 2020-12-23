@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace APMControl {
     using ContainerCollection = DispatchedObservableCollection<Container>;
@@ -13,6 +15,16 @@ namespace APMControl {
     public sealed class Storage : APMCore.ViewModel.StorageBase, IStorage, IDisposable {
         #region 属性
         #region 公共属性
+        /// <summary>
+        /// 是否为单标签模式
+        /// </summary>
+        public bool IsSingleFilter {
+            get {
+                return Application.Current.Dispatcher.Invoke(() => {
+                    return Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt);
+                });
+            }
+        }
         /// <summary>
         /// 新建Container所用的模板
         /// </summary>
@@ -42,6 +54,7 @@ namespace APMControl {
         #region 私有字段
         private readonly object _filtersLocker;
         private readonly object _containersLocker;
+        private readonly object _contianerTemplateLocker;
         #endregion
 
         #region 后备字段
@@ -62,6 +75,7 @@ namespace APMControl {
 
             _filtersLocker = new object();
             _containersLocker = new object();
+            _contianerTemplateLocker = new object();
 
             _filters = new FilterCollection();
             _containers = new ContainerCollection();
@@ -302,6 +316,24 @@ namespace APMControl {
                 return removeCount;
             });
         }
+        /// <summary>
+        /// 将Container内容复制到Contaienr模板
+        /// </summary>
+        /// <param name="container">要复制内容的Container</param>
+        /// <returns></returns>
+        public async Task SetContainerToTemplateAsync(Container container) {
+            await ContainerTemplate.SetAvatarAsync(container.Avatar);
+            ContainerTemplate.Header = container.Header;
+            ContainerTemplate.Description = container.Description;
+            ContainerTemplate.Filter = container.Filter;
+            ContainerTemplate.FilterUID = container.FilterUID;
+            ContainerTemplate.Pairs.Clear();
+            foreach (Pair pairSource in container.FetchPairs((p) => true)) {
+                Pair pair = await ContainerTemplate.AddPairAsync();
+                pair.Title = pairSource.Title;
+                pair.Detail = pairSource.Detail;
+            }
+        }
         #endregion
 
         #region 私有方法
@@ -328,14 +360,23 @@ namespace APMControl {
         private async void Filter_StatusChangedAsync(object sender, APMCore.FilterStatusSwitchedEventArgs e) {
             Filter filter = sender as Filter;
             filter.UpdateToSource();
-            if (filter.IsOn) {
-                await Task.Run(() => {
-                    LoadContainersHelper(filter.FetchContainers((c) => true));
-                });
+
+            if (IsSingleFilter) {
+                foreach (Filter f in Filters) {
+                    f.IsOn = false;
+                }
+                filter.IsOn = true;
+                await ReloadContainersAsync();
             } else {
-                await Task.Run(() => {
-                    UnloadContainersHelper(filter.FetchContainers((c) => true));
-                });
+                if (filter.IsOn) {
+                    await Task.Run(() => {
+                        LoadContainersHelper(filter.FetchContainers((c) => true));
+                    });
+                } else {
+                    await Task.Run(() => {
+                        UnloadContainersHelper(filter.FetchContainers((c) => true));
+                    });
+                }
             }
         }
         private void Filter_Updated(object sender, APMCore.RecordUpdatedEventArgs e) {

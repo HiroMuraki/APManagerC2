@@ -173,6 +173,13 @@
             </DataTemplate.Triggers>
             <Grid Opacity="{Binding Opacity}" Tag="{Binding}" Margin="20"
                   MouseLeftButtonDown="OpenContainer_Click" Focusable="False" ToolTip="{Binding}">
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Tag="{Binding}" Header="打开" Click="OpenContainer_Click"/>
+                        <MenuItem Tag="{Binding}" Header="移除" Click="RemoveContainer_Click"/>
+                        <MenuItem Tag="{Binding}" Header="设为模板" Click="SetContaienrToTemplate_CLick"/>
+                    </ContextMenu>
+                </Grid.ContextMenu>
                 <Grid.Effect>
                     <DropShadowEffect x:Name="ShadowEffect" BlurRadius="20" ShadowDepth="1" Opacity="0.1"/>
                 </Grid.Effect>

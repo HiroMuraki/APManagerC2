@@ -146,11 +146,11 @@ namespace APManagerC2.View {
 
         //数据容器相关
         /// <summary>
-        /// 点击数据容器
+        /// 打开容器
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OpenContainer_Click(object sender, MouseButtonEventArgs e) {
+        private void OpenContainer_Click(object sender, RoutedEventArgs e) {
             _commandHandler.OpenContainer(GetContainerFromControl(sender));
         }
         /// <summary>
@@ -184,6 +184,14 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void Reload_Click(object sender, RoutedEventArgs e) {
             _commandHandler.Reload();
+        }
+        /// <summary>
+        /// 将容器设置为模板
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetContaienrToTemplate_CLick(object sender, RoutedEventArgs e) {
+            _commandHandler.SetContainerToTemplate(GetContainerFromControl(sender));
         }
         /// <summary>
         /// 拖拽载入数据

@@ -143,6 +143,13 @@ namespace APManagerC2.Command {
         public void DataLabelArea_Drop() {
 
         }
+        /// <summary>
+        /// 将指定Container内容复制为模板内容
+        /// </summary>
+        /// <param name="container">要复制的Contaienr</param>
+        public async void SetContainerToTemplate(Container container) {
+            await _userData.Storage.SetContainerToTemplateAsync(container);
+        }
         #endregion
 
         #region 工具栏
