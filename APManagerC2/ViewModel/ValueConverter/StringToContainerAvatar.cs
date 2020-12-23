@@ -15,9 +15,10 @@ namespace APManagerC2.ViewModel.ValueConverter {
             if (Path.IsPathRooted(filename)) {
                 filePath = filename;
             } else {
-                filePath = $@"{DataAvatarsFolderName}\{filename}";
-                if (!File.Exists(filePath)) {
-                    filePath = $@"{UserProfileFolderName}\{UserAvatarFileName}";
+                if (string.IsNullOrEmpty(filename)) {
+                    filePath = $"{UserAvatarFileName}";
+                } else {
+                    filePath = $@"{DataAvatarsFolderName}\{filename}";
                 }
             }
             BitmapImage image;
