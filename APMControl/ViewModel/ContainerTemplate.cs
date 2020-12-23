@@ -2,6 +2,7 @@
 using APMCore;
 using APMCore.ViewModel;
 using System.Data.SQLite;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace APMControl {
@@ -66,7 +67,7 @@ namespace APMControl {
         /// </summary>
         public async Task<UpdateInformation> UpdateToSourceAsync() {
             return await Task.Run(() => {
-                return new UpdateInformation(0, APMCore.UpdateMethod.Update, -1);
+                return new UpdateInformation(0, UpdateMethod.Update, -1);
             });
         }
         /// <summary>
@@ -111,7 +112,7 @@ namespace APMControl {
                 await container.SetAvatarAsync(Avatar);
             }
 
-            container.UpdateToSource(APMCore.UpdateMethod.Insert);
+            container.UpdateToSource(UpdateMethod.Insert);
 
             foreach (Pair pair in Pairs) {
                 Pair sourcePair = await container.AddPairAsync();
@@ -119,7 +120,7 @@ namespace APMControl {
                 sourcePair.Detail = pair.Detail;
             }
 
-            container.UpdateToSource(APMCore.UpdateMethod.Update);
+            container.UpdateToSource(UpdateMethod.Update);
 
             return container;
         }
@@ -137,7 +138,7 @@ namespace APMControl {
                 };
                 return new Pair(source) {
                     DataBase = DataBase,
-                    UpdateMethod = APMCore.UpdateMethod.Insert
+                    UpdateMethod = UpdateMethod.Insert
                 };
             });
             await Task.Run(() => {

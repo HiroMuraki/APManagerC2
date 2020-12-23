@@ -213,7 +213,12 @@ namespace APMControl {
             return await Task.Run(() => {
                 string fileExt = Path.GetExtension(filePath);
                 string avatarName = $"C{ContainerUID}{fileExt}";
-                File.Copy(filePath, $@"{DataAvatarsFolderName}\{avatarName}", true);
+                try {
+                    File.Copy(filePath, $@"{DataAvatarsFolderName}\{avatarName}", true);
+                }
+                catch {
+                    return false;
+                }
                 Avatar = avatarName;
                 return true;
             });
