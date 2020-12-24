@@ -119,9 +119,11 @@ namespace APManagerC2.View {
                     break;
             }
             Close();
+            e.Handled = true;
         }
         private void Window_Move(object sender, MouseButtonEventArgs e) {
             DragMove();
+            e.Handled = true;
         }
     }
 }

@@ -46,6 +46,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void ChangeAvatar_Click(object sender, RoutedEventArgs e) {
             _commandHandler.ChangeAvatar();
+            e.Handled = true;
         }
         /// <summary>
         /// 保存修改
@@ -54,18 +55,22 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e) {
             _commandHandler.Save();
+            e.Handled = true;
         }
         #endregion
 
         #region 窗口操作
         private void Window_Move(object sender, MouseButtonEventArgs e) {
             _commandHandler.MoveWindow();
+            e.Handled = true;
         }
         private void Window_Minimum(object sender, RoutedEventArgs e) {
             _commandHandler.MinimumWindow();
+            e.Handled = true;
         }
         private void Window_Close(object sender, RoutedEventArgs e) {
             _commandHandler.CloseWindow();
+            e.Handled = true;
         }
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             _commandHandler.KeyDown(e.Key);

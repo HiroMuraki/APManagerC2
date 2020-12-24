@@ -50,28 +50,35 @@ namespace APManagerC2.View {
         #region 控件操作
         private void Login_Click(object sender, RoutedEventArgs e) {
             _commandHandler.Login();
+            e.Handled = true;
         }
         private void PackData_Click(object sender, RoutedEventArgs e) {
             _commandHandler.PackData();
+            e.Handled = true;
         }
         private void UnpackData_Click(object sender, RoutedEventArgs e) {
             _commandHandler.UnpackData();
+            e.Handled = true;
         }
         private void OpenMenu_Click(object sender, RoutedEventArgs e) {
             FrameworkElement element = sender as FrameworkElement;
             element.ContextMenu.IsOpen = !element.ContextMenu.IsOpen;
+            e.Handled = true;
         }
         #endregion
 
         #region 窗口操作
         private void Window_Move(object sender, MouseButtonEventArgs e) {
             _commandHandler.MoveWindow();
+            e.Handled = true;
         }
         private void Window_Minimum(object sender, RoutedEventArgs e) {
             _commandHandler.MinimumWindow();
+            e.Handled = true;
         }
         private void Window_Close(object sender, RoutedEventArgs e) {
             _commandHandler.CloseWindow();
+            e.Handled = true;
         }
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             _commandHandler.KeyDown(e.Key);

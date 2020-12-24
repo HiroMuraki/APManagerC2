@@ -70,6 +70,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void SaveData_Click(object sender, RoutedEventArgs e) {
             _commandHandler.Save();
+            e.Handled = true;
         }
 
         /// <summary>
@@ -79,6 +80,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void AddPair_Click(object sender, RoutedEventArgs e) {
             _commandHandler.AddPair((sender as FrameworkElement).Tag as string);
+            e.Handled = true;
         }
         /// <summary>
         /// 删除数据条目
@@ -87,6 +89,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void RemoveDataPair_Click(object sender, RoutedEventArgs e) {
             _commandHandler.RemovePair(GetPairFromControl(sender));
+            e.Handled = true;
         }
 
         /// <summary>
@@ -96,6 +99,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void ModifiyAvatar_Click(object sender, RoutedEventArgs e) {
             _commandHandler.SetAvatar();
+            e.Handled = true;
         }
         /// <summary>
         /// 设置过滤器
@@ -104,6 +108,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void SetDataFilter_Click(object sender, RoutedEventArgs e) {
             _commandHandler.SetFilter(GetFilterFromControl(sender));
+            e.Handled = true;
         }
         /// <summary>
         /// 清理空Pairs
@@ -112,6 +117,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void ClearEmptyPairs_Click(object sender, RoutedEventArgs e) {
             _commandHandler.ClearEmptyPairs();
+            e.Handled = true;
         }
         /// <summary>
         /// 重新加载Pair组
@@ -120,24 +126,29 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void Refresh_Click(object sender, RoutedEventArgs e) {
             _commandHandler.Refresh();
+            e.Handled = true;
         }
         #endregion
 
         #region 窗口操作
         private void Window_Minimum(object sender, RoutedEventArgs e) {
             _commandHandler.MinimumWindow();
+            e.Handled = true;
         }
         private void Window_Maximum(object sender, RoutedEventArgs e) {
             _commandHandler.MaximumWindow();
+            e.Handled = true;
         }
         private void Window_Close(object sender, RoutedEventArgs e) {
             _commandHandler.CloseWindow();
+            e.Handled = true;
         }
         private void Window_Move(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
                 _commandHandler.MaximumWindow();
             }
             _commandHandler.MoveWindow();
+            e.Handled = true;
         }
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             _commandHandler.KeyDown(e.Key);
@@ -145,6 +156,7 @@ namespace APManagerC2.View {
         private async void WindowSelf_Loaded(object sender, RoutedEventArgs e) {
             await _container.OpenAsync();
             await _backup.CopyPropertiesAsync(_container);
+            e.Handled = true;
         }
         private async void WindowSelf_Closed(object sender, EventArgs e) {
             await Container.CloseAsync();

@@ -46,6 +46,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e) {
             _commandHandler.Save();
+            e.Handled = true;
         }
         #endregion
 
@@ -55,9 +56,11 @@ namespace APManagerC2.View {
         }
         private void Window_Close(object sender, RoutedEventArgs e) {
             _commandHandler.CloseWindow();
+            e.Handled = true;
         }
         private void Window_Move(object sender, MouseButtonEventArgs e) {
             _commandHandler.MoveWindow();
+            e.Handled = true;
         }
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             _commandHandler.KeyDown(e.Key);
@@ -72,6 +75,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void Identifier_Click(object sender, RoutedEventArgs e) {
             ColorPickerPopup.IsOpen = true;
+            e.Handled = true;
         }
         #endregion 
     }
