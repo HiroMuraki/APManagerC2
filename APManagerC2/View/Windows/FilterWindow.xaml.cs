@@ -30,13 +30,11 @@ namespace APManagerC2.View {
 
         #region 构造函数
         public FilterWindow(APMControl.Filter filter) {
-            _backup = new APMControl.Filter(new APMCore.Model.Filter(-1));
-            _backup.CopyPropertiesAsync(filter);
             _filter = filter;
+            _backup = new APMControl.Filter(new APMCore.Model.Filter(-1));
+            _commandHandler = new FilterWindowCommandHandler(this);
 
             InitializeComponent();
-
-            _commandHandler = new FilterWindowCommandHandler(this);
         }
         #endregion
 
@@ -52,6 +50,9 @@ namespace APManagerC2.View {
         #endregion
 
         #region 窗口操作
+        private async void WindowSelf_Loaded(object sender, RoutedEventArgs e) {
+            await _backup.CopyPropertiesAsync(_filter);
+        }
         private void Window_Close(object sender, RoutedEventArgs e) {
             _commandHandler.CloseWindow();
         }
@@ -72,7 +73,6 @@ namespace APManagerC2.View {
         private void Identifier_Click(object sender, RoutedEventArgs e) {
             ColorPickerPopup.IsOpen = true;
         }
-        #endregion
-
+        #endregion 
     }
 }

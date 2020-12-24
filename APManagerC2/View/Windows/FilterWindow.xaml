@@ -6,7 +6,7 @@
         xmlns:View="clr-namespace:APManagerC2.View" x:Name="WindowSelf"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
         Height="160" Width="350" ResizeMode="NoResize"
-        DataContext="{Binding ElementName=WindowSelf}"
+        DataContext="{Binding ElementName=WindowSelf}" Loaded="WindowSelf_Loaded"
         FocusManager.FocusedElement="{Binding ElementName=InputBox}"
         Title="{Binding Filter}" KeyDown="Window_KeyDown">
     <WindowChrome.WindowChrome>

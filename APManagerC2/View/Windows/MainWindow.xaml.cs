@@ -25,12 +25,11 @@ namespace APManagerC2.View {
         /// </summary>
         public MainWindow(APMControl.UserData userData) {
             _userData = userData;
+            _commandHandler = new MainWindowCommandHandler(this);
 
             InitializeComponent();
             GridRoot.MaxWidth = SystemParameters.WorkArea.Width;
             GridRoot.MaxHeight = SystemParameters.WorkArea.Height;
-
-            _commandHandler = new MainWindowCommandHandler(this);
         }
 
         #region 窗口操作

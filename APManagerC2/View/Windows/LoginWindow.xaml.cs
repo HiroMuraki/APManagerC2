@@ -42,8 +42,8 @@ namespace APManagerC2.View {
         public LoginWindow(APMControl.UserData userData) {
             _userData = userData;
             InputPassword = "";
-            InitializeComponent();
             _commandHandler = new LoginWindowCommandHandler(this);
+            InitializeComponent();
         }
         #endregion
 
