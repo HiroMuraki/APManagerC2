@@ -48,7 +48,7 @@ namespace APMCore.ViewModel {
             get {
                 return _dataSource.IsOn;
             }
-            set {
+            private set {
                 _dataSource.IsOn = value;
                 OnPropertyChanged(nameof(IsOn));
             }
@@ -80,15 +80,22 @@ namespace APMCore.ViewModel {
         #endregion
 
         #region 方法
-        #region 保护方法
-        protected void ToggleFilter() {
+        #region 公共方法
+        public void Toggle() {
             IsOn = !IsOn;
-            SQLiteCommand cmd = new SQLiteCommand(DataBase);
-            cmd.CommandText = $@"Update {APM.FiltersTable}
-                                 Set {APM.FilterIsOn} = {IsOn}
-                                 Where {APM.FilterUID} == {FilterUID}";
-            cmd.ExecuteNonQuery();
+            UpdateIsOn(IsOn);
         }
+        public void ToggleOn() {
+            IsOn = true;
+            UpdateIsOn(true);
+        }
+        public void ToggleOff() {
+            IsOn = false;
+            UpdateIsOn(false);
+        }
+        #endregion
+
+        #region 保护方法
         /// <summary>
         /// 复制属性
         /// </summary>
@@ -253,6 +260,13 @@ namespace APMCore.ViewModel {
         }
         protected override UpdateInformation DeleteFrom(SQLiteConnection conn) {
             return Delete(_dataSource, conn);
+        }
+        protected void UpdateIsOn(bool value) {
+            SQLiteCommand cmd = new SQLiteCommand(DataBase);
+            cmd.CommandText = $@"Update {APM.FiltersTable}
+                                 Set {APM.FilterIsOn} = {value}
+                                 Where {APM.FilterUID} == {FilterUID}";
+            cmd.ExecuteNonQuery();
         }
         #endregion
         #endregion

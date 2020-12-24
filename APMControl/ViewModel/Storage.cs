@@ -165,7 +165,7 @@ namespace APMControl {
         /// </summary>
         public async Task InverseFiltersAsync() {
             foreach (Filter filter in _filters) {
-                filter.IsOn = !filter.IsOn;
+                filter.Toggle();
             }
             await ReloadContainersAsync();
         }
@@ -174,7 +174,7 @@ namespace APMControl {
         /// </summary>
         public async Task ToggleOnAllFiltersAsync() {
             foreach (Filter filter in _filters) {
-                filter.IsOn = true;
+                filter.ToggleOn();
             }
             await ReloadContainersAsync();
         }
@@ -362,9 +362,9 @@ namespace APMControl {
 
             if (IsSingleFilter) {
                 foreach (Filter f in Filters) {
-                    f.IsOn = false;
+                    f.ToggleOff();
                 }
-                filter.IsOn = true;
+                filter.ToggleOn();
                 await ReloadContainersAsync();
             } else {
                 if (filter.IsOn) {

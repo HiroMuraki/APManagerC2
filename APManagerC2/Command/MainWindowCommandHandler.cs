@@ -34,8 +34,8 @@ namespace APManagerC2.Command {
         /// <summary>
         /// 点击数据标签
         /// </summary>
-        public void ToggleFilter(Filter filter) {
-            filter.ToggleAsync();
+        public async void ToggleFilter(Filter filter) {
+            await filter.ToggleAsync();
         }
         /// <summary>
         /// 添加数据标签

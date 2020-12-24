@@ -5,35 +5,35 @@ namespace APMControl.Interface {
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; set; }
+        string UserName { get; set; }
         /// <summary>
         /// 用户密码
         /// </summary>
-        public string UserPassword { get; set; }
+        string UserPassword { get; set; }
         /// <summary>
         /// 附加描述
         /// </summary>
-        public string Description { get; set; }
+        string Description { get; set; }
         /// <summary>
         /// 头像路径
         /// </summary>
-        public string Avatar { get;  }
+        string Avatar { get; }
         /// <summary>
         /// 是否为编辑模式
         /// </summary>
-        public bool IsEditMode { get; set; }
+        bool IsEditMode { get; set; }
         /// <summary>
         /// 指示容器列数
         /// </summary>
-        public int ColumnSize { get; set; }
+        int ColumnSize { get; set; }
         /// <summary>
         /// Storage文件
         /// </summary>
-        public string StorageFile { get; }
+        string StorageFile { get; }
         /// <summary>
         /// 储存库
         /// </summary>
-        public IStorage Storage { get; }
+        IStorage Storage { get; }
 
         /// <summary>
         /// 打开储存库

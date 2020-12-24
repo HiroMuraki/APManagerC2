@@ -5,25 +5,26 @@ namespace APMControl.Interface {
         /// <summary>
         /// 过滤器名
         /// </summary>
-        public string Name { get; set; }
+        string Name { get; set; }
         /// <summary>
         /// 过滤器特征标
         /// </summary>
-        public string Identifier { get; }
+        string Identifier { get; }
         /// <summary>
         /// 过滤器开/关状态
         /// </summary>
-        public bool IsOn { get; }
+        bool IsOn { get; }
 
+        Task ToggleAsync();
         /// <summary>
         /// 更新数据至源
         /// </summary>
         /// <returns></returns>
-        public Task<APMCore.UpdateInformation> UpdateToSourceAsync();
+        Task<APMCore.UpdateInformation> UpdateToSourceAsync();
         /// <summary>
         /// 复制属性
         /// </summary>
         /// <param name="filter"></param>
-        public Task CopyPropertiesAsync(IFilter filter);
+        Task CopyPropertiesAsync(IFilter filter);
     }
 }

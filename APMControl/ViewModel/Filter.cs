@@ -68,10 +68,10 @@ namespace APMControl {
         /// <summary>
         /// 切换开关状态，并引发StatusChanged事件
         /// </summary>
-        public async void ToggleAsync() {
+        public async Task ToggleAsync() {
             await Task.Run(() => {
                 lock (_statusLocker) {
-                    ToggleFilter();
+                    Toggle();
                     StatusChanged?.Invoke(this, new FilterStatusSwitchedEventArgs(IsOn));
                 }
             });

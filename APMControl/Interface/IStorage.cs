@@ -9,15 +9,15 @@ namespace APMControl.Interface {
         /// <summary>
         /// 新建Container所用的模板
         /// </summary>
-        public ContainerTemplate ContainerTemplate { get; }
+        ContainerTemplate ContainerTemplate { get; }
         /// <summary>
         /// 可视化的Filter列表
         /// </summary>
-        public FilterCollection Filters { get; }
+        FilterCollection Filters { get; }
         /// <summary>
         /// 可视化的Container列表
         /// </summary>
-        public ContainerCollection Containers { get; }
+        ContainerCollection Containers { get; }
 
         /// <summary>
         /// 更新数据至源

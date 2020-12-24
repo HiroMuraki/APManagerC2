@@ -3,10 +3,10 @@
         /// <summary>
         /// 标题
         /// </summary>
-        public string Title { get; set; }
+        string Title { get; set; }
         /// <summary>
         /// 细节
         /// </summary>
-        public string Detail { get; set; }
+        string Detail { get; set; }
     }
 }
