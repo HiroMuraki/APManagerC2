@@ -94,7 +94,7 @@ namespace APMCore.ViewModel {
         /// <param name="conn">目标数据库</param>
         /// <returns>受影响的记录数</returns>
         protected override UpdateInformation UpdateTo() {
-            return PairHelper.Insert(_dataSource, DataBase);
+            return PairHelper.Update(_dataSource, DataBase);
         }
         /// <summary>
         /// 从数据库中删除
