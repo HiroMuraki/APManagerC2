@@ -30,6 +30,17 @@ namespace APMCore.ViewModel.Helper {
 
         public static UpdateInformation Update(Filter source, SQLiteConnection conn) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
+            cmd.CommandText = $@"Update {APM.FiltersTable} 
+                                 Set {APM.FilterName}       = '{source.Name}', 
+                                     {APM.FilterIdentifier} = '{source.Identifier}',
+                                     {APM.FilterIsOn}       =  {source.IsOn}
+                                 Where {APM.FilterUID} = {source.FilterUID}";
+            int impacts = cmd.ExecuteNonQuery();
+            return new UpdateInformation(impacts, UpdateMethod.Delete, source.FilterUID);
+        }
+
+        public static UpdateInformation Insert(Filter source, SQLiteConnection conn) {
+            SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Insert Into {APM.FiltersTable}
                                        ({APM.FilterUID}, 
                                         {APM.FilterName},
@@ -39,17 +50,6 @@ namespace APMCore.ViewModel.Helper {
                                        '{source.Name}', 
                                        '{source.Identifier}', 
                                         {source.IsOn})";
-            int impacts = cmd.ExecuteNonQuery();
-            return new UpdateInformation(impacts, UpdateMethod.Delete, source.FilterUID);
-        }
-
-        public static UpdateInformation Insert(Filter source, SQLiteConnection conn) {
-            SQLiteCommand cmd = new SQLiteCommand(conn);
-            cmd.CommandText = $@"Update {APM.FiltersTable} 
-                                 Set {APM.FilterName}       = '{source.Name}', 
-                                     {APM.FilterIdentifier} = '{source.Identifier}',
-                                     {APM.FilterIsOn}       =  {source.IsOn}
-                                 Where {APM.FilterUID} = {source.FilterUID}";
             int impacts = cmd.ExecuteNonQuery();
             return new UpdateInformation(impacts, UpdateMethod.Delete, source.FilterUID);
         }

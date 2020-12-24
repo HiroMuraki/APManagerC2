@@ -6,8 +6,8 @@ using static APMControl.APM;
 
 namespace APMControl {
     public static class APMPackager {
-        private static string PackageFolder = "UserPackage";
-        private static object _packagerLocker = new object();
+        private static readonly string PackageFolder = "UserPackage";
+        private static readonly object _packagerLocker = new object();
 
         public static async Task PackAsync(string outputFileName) {
             lock (_packagerLocker) {

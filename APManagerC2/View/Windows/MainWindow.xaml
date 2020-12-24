@@ -176,7 +176,7 @@
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Tag="{Binding}" Header="打开" Click="OpenContainer_Click"/>
-                        <MenuItem Tag="{Binding}" Header="移除" Click="RemoveContainer_Click"/>
+                        <MenuItem Tag="{Binding}" Header="删除" Click="RemoveContainer_Click"/>
                         <MenuItem Tag="{Binding}" Header="设为模板" Click="SetContaienrToTemplate_CLick"/>
                     </ContextMenu>
                 </Grid.ContextMenu>

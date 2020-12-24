@@ -32,11 +32,11 @@ namespace APMCore.ViewModel.Helper {
         public static UpdateInformation Update(Container source, SQLiteConnection conn) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Update {APM.ContainersTable} 
-                                     Set {APM.ContainerFilter}     =  {source.FilterUID}, 
-                                         {APM.ContainerHeader}     = '{source.Header}', 
-                                         {APM.ContainerDescrption} = '{source.Description}', 
-                                         {APM.ContainerAvatar}     = '{source.Avatar}' 
-                                     Where {APM.ContainerUID}      == {source.ContainerUID}";
+                                 Set {APM.ContainerFilter}     =  {source.FilterUID}, 
+                                     {APM.ContainerHeader}     = '{source.Header}', 
+                                     {APM.ContainerDescrption} = '{source.Description}', 
+                                     {APM.ContainerAvatar}     = '{source.Avatar}' 
+                                 Where {APM.ContainerUID}      == {source.ContainerUID}";
             int impacts = cmd.ExecuteNonQuery();
             return new UpdateInformation(impacts, UpdateMethod.Update, source.ContainerUID);
         }
@@ -64,7 +64,7 @@ namespace APMCore.ViewModel.Helper {
         public static UpdateInformation Delete(Container source, SQLiteConnection conn) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Delete From {APM.ContainersTable} 
-                                     Where {APM.ContainerUID} == {source.ContainerUID} ";
+                                 Where {APM.ContainerUID} == {source.ContainerUID} ";
             int impacts = cmd.ExecuteNonQuery();
             return new UpdateInformation(impacts, UpdateMethod.Delete, source.ContainerUID);
         }
