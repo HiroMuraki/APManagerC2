@@ -36,6 +36,9 @@ namespace APMCore.Model {
         /// <param name="filterUID">唯一标识符</param>
         public Filter(long filterUID) {
             FilterUID = filterUID;
+            Name = "";
+            Identifier = "";
+            IsOn = true;
         }
     }
 }

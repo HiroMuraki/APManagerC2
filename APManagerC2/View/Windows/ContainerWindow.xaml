@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ViewModel="clr-namespace:APMControl;assembly=APMControl"
+        xmlns:ViewModel="clr-namespace:APMControl.Interface;assembly=APMControl"
         xmlns:View="clr-namespace:APManagerC2.View"
         mc:Ignorable="d" x:Name="WindowSelf"
         WindowStartupLocation="CenterOwner" ResizeMode="CanResize"
@@ -58,7 +58,7 @@
             </Setter>
         </Style>
         <!--数据项数据模板-->
-        <DataTemplate x:Key="PairDataTemplate" DataType="{x:Type ViewModel:Pair}">
+        <DataTemplate x:Key="PairDataTemplate" DataType="{x:Type ViewModel:IPair}">
             <DataTemplate.Resources>
                 <Style x:Key="RadiusTextBlock" TargetType="TextBox">
                     <Setter Property="BorderThickness" Value="0,0,0,0"/>
@@ -237,7 +237,7 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type ViewModel:Filter}">
+                            <DataTemplate DataType="{x:Type ViewModel:IFilter}">
                                 <View:GeneralButton Height="40" Content="{Binding Name}" ToolTip="{Binding Name}"
                                                     Click="SetDataFilter_Click" Tag="{Binding}"
                                                     FontSize="16" Margin="2" Effect="{StaticResource GeneralShadowEffect}"

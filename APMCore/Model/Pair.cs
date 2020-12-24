@@ -36,6 +36,9 @@ namespace APMCore.Model {
         /// <param name="pairUID">唯一标识符</param>
         public Pair(long pairUID) {
             PairUID = pairUID;
+            ContainerUID = -1;
+            Title = "";
+            Detail = "";
         }
     }
 }

@@ -42,6 +42,10 @@ namespace APMCore.Model {
         /// <param name="containerUID">唯一标识符</param>
         public Container(long containerUID) {
             ContainerUID = containerUID;
+            FilterUID = -1;
+            Header = "";
+            Description = "";
+            Avatar = "";
         }
     }
 }
