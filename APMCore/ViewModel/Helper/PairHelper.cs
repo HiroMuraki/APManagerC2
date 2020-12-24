@@ -26,8 +26,8 @@ namespace APMCore.ViewModel.Helper {
         public static Pair FetchFrom(SQLiteDataReader reader) {
             long pairUID = (long)reader[APM.PairUID];
             long containerUID = (long)reader[APM.PairContainer];
-            string title = reader[APM.PairTitle] as string;
-            string detail = reader[APM.PairDetail] as string;
+            string title = (string)reader[APM.PairTitle];
+            string detail = (string)reader[APM.PairDetail];
             Pair source = new Pair(pairUID) {
                 ContainerUID = containerUID,
                 Title = title,

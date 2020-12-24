@@ -44,12 +44,12 @@ namespace APMControl {
         /// </summary>
         /// <returns></returns>
         public override UpdateInformation UpdateToSource(UpdateMethod updateMethod) {
-            UpdateInformation updateInformation = base.UpdateToSource(updateMethod);
-            if (updateInformation.UpdateMethod == UpdateMethod.Delete) {
+            if (updateMethod == UpdateMethod.Delete) {
                 foreach (Container container in FetchContainers((c) => true)) {
                     container.UpdateToSource(UpdateMethod.Delete);
                 }
             }
+            UpdateInformation updateInformation = base.UpdateToSource(updateMethod);
             return updateInformation;
         }
         public async Task<UpdateInformation> UpdateToSourceAsync() {

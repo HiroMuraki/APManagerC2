@@ -130,11 +130,13 @@ namespace APMControl {
             await Task.Run(() => {
                 lock (_containersLocker) {
                     _containers.Clear();
-                    foreach (Filter filter in Filters) {
-                        if (!filter.IsOn) {
-                            continue;
+                    lock (_filtersLocker) {
+                        foreach (Filter filter in Filters) {
+                            if (!filter.IsOn) {
+                                continue;
+                            }
+                            LoadContainersHelper(filter.FetchContainers((c) => true));
                         }
-                        LoadContainersHelper(filter.FetchContainers((c) => true));
                     }
                 }
             });
@@ -182,6 +184,7 @@ namespace APMControl {
         /// 聚焦Containers
         /// </summary>
         public async Task FocusContainersAsync(IFilter filter) {
+            var f = filter as Filter;
             await Task.Run(() => {
                 lock (_containersLocker) {
                     if (filter == null || filter.IsOn == false) {
@@ -190,7 +193,7 @@ namespace APMControl {
                         }
                     } else {
                         foreach (Container container in _containers) {
-                            if (container.FilterUID == (filter as Filter).FilterUID) {
+                            if (container.FilterUID == f.FilterUID) {
                                 container.Opacity = 1;
                             } else {
                                 container.Opacity = 0.25;
@@ -225,13 +228,14 @@ namespace APMControl {
         /// </summary>
         /// <param name="filter"></param>
         public async Task<bool> RemoveFilterAsync(IFilter filter) {
+            Filter f = filter as Filter;
+            f.UpdateMethod = APMCore.UpdateMethod.Delete;
+            if (ContainerTemplate.Filter == filter) {
+                ContainerTemplate.Filter = null;
+            }
             return await Task.Run(() => {
-                Filter f = filter as Filter;
-                f.UpdateMethod = APMCore.UpdateMethod.Delete;
-                if (ContainerTemplate.Filter == filter) {
-                    ContainerTemplate.Filter = null;
-                }
                 lock (_filtersLocker) {
+                    UnloadContainersHelper(f.FetchContainers((c) => true));
                     return RemoveFilterHelper(f);
                 }
             });
@@ -292,9 +296,9 @@ namespace APMControl {
         /// </summary>
         /// <param name="container"></param>
         public async Task<bool> RemoveContainerAsync(IContainer container) {
+            Container c = container as Container;
             return await Task.Run(() => {
                 lock (_containersLocker) {
-                    Container c = container as Container;
                     c.UpdateMethod = APMCore.UpdateMethod.Delete;
                     return RemoveContainerHelper(c);
                 }
@@ -326,8 +330,8 @@ namespace APMControl {
         /// <param name="container">要复制内容的Container</param>
         /// <returns></returns>
         public async Task SetContainerToTemplateAsync(IContainer container) {
-            await ContainerTemplate.SetAvatarAsync(container.Avatar);
             Container c = container as Container;
+            await ContainerTemplate.SetAvatarAsync(container.Avatar);
             ContainerTemplate.Header = c.Header;
             ContainerTemplate.Description = c.Description;
             ContainerTemplate.Filter = c.Filter;

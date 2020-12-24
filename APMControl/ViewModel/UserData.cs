@@ -99,9 +99,7 @@ namespace APMControl {
         /// <returns>根据文件创建的UserData实例</returns>
         public async static Task<UserData> LoadFromFileAsync(string filePath) {
             APMCore.Model.UserData source = await Task.Run(() => {
-                using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read)) {
-                    return source = SourceSerializer.ReadObject(file) as APMCore.Model.UserData;
-                }
+                return LoadFromFile(filePath);
             });
 
             if (source == null) {

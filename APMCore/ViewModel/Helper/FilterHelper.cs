@@ -26,8 +26,8 @@ namespace APMCore.ViewModel.Helper {
         /// <returns></returns>
         public static Filter FetchFrom(SQLiteDataReader reader) {
             long filterUID = (long)reader[APM.FilterUID];
-            string name = reader[APM.FilterName] as string;
-            string identifier = reader[APM.FilterIdentifier] as string;
+            string name = (string)reader[APM.FilterName];
+            string identifier = (string)reader[APM.FilterIdentifier];
             bool isOn = Convert.ToBoolean(reader[APM.FilterIsOn]);
             Filter source = new Filter(filterUID) {
                 Name = name,
@@ -50,7 +50,7 @@ namespace APMCore.ViewModel.Helper {
                                      {APM.FilterIsOn}       =  {source.IsOn}
                                  Where {APM.FilterUID} = {source.FilterUID}";
             int impacts = cmd.ExecuteNonQuery();
-            return new UpdateInformation(impacts, UpdateMethod.Delete, source.FilterUID);
+            return new UpdateInformation(impacts, UpdateMethod.Update, source.FilterUID);
         }
         /// <summary>
         /// 向指定数据库中插入一条记录
@@ -70,7 +70,7 @@ namespace APMCore.ViewModel.Helper {
                                        '{source.Identifier}', 
                                         {source.IsOn})";
             int impacts = cmd.ExecuteNonQuery();
-            return new UpdateInformation(impacts, UpdateMethod.Delete, source.FilterUID);
+            return new UpdateInformation(impacts, UpdateMethod.Insert, source.FilterUID);
         }
         /// <summary>
         /// 从指定数据库中删除记录

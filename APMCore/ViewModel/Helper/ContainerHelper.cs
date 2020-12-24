@@ -26,9 +26,9 @@ namespace APMCore.ViewModel.Helper {
         public static Container FetchFrom(SQLiteDataReader reader) {
             long containerUID = (long)reader[APM.ContainerUID];
             long filterUID = (long)reader[APM.FilterUID];
-            string header = reader[APM.ContainerHeader] as string;
-            string descrption = reader[APM.ContainerDescrption] as string;
-            string avatar = reader[APM.ContainerAvatar] as string;
+            string header = (string)reader[APM.ContainerHeader];
+            string descrption = (string)reader[APM.ContainerDescrption];
+            string avatar = (string)reader[APM.ContainerAvatar];
             Container source = new Container(containerUID) {
                 FilterUID = filterUID,
                 Header = header,

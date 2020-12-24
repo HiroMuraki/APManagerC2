@@ -113,7 +113,6 @@ namespace APMControl {
         /// </summary>
         /// <returns></returns>
         public override UpdateInformation UpdateToSource(UpdateMethod updateMethod) {
-            UpdateInformation ui = base.UpdateToSource(updateMethod);
             if (updateMethod == UpdateMethod.Delete) {
                 foreach (Pair pair in FetchPairs((p) => true)) {
                     pair.UpdateToSource(UpdateMethod.Delete);
@@ -121,11 +120,12 @@ namespace APMControl {
                 if (File.Exists($@"{DataAvatarsFolderName}\{Avatar}")) {
                     File.Delete($@"{DataAvatarsFolderName}\{Avatar}");
                 }
-            } else {
+            } else if (updateMethod == UpdateMethod.Update) {
                 foreach (Pair pair in _workPairs) {
                     pair.UpdateToSource();
                 }
             }
+            UpdateInformation ui = base.UpdateToSource(updateMethod);
             return ui;
         }
         public async Task<UpdateInformation> UpdateToSourceAsync() {
@@ -140,7 +140,7 @@ namespace APMControl {
         /// <returns></returns>
         public IEnumerable<IPair> FetchPairs(Predicate<APMCore.Model.Pair> predicate) {
             foreach (APMCore.Model.Pair source in FetchPairsHelper(predicate)) {
-                yield return new Pair(source);
+                yield return new Pair(source) { DataBase = DataBase };
             }
         }
         /// <summary>

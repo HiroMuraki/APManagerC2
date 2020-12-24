@@ -102,7 +102,7 @@ namespace APMCore.ViewModel {
         /// <param name="conn">指定数据库</param>
         /// <returns>受影响的记录数</returns>
         protected override UpdateInformation DeleteFrom() {
-            return PairHelper.Insert(_dataSource, DataBase);
+            return PairHelper.Delete(_dataSource, DataBase);
         }
         #endregion
         #endregion

@@ -151,7 +151,7 @@ namespace APMCore.ViewModel {
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        protected UserData LoadFromFile(string filePath) {
+        protected static UserData LoadFromFile(string filePath) {
             return UserDataHelper.LoadFromFile(filePath);
         }
         #endregion
