@@ -1,5 +1,6 @@
-﻿using System.Data.SQLite;
-using System.IO;
+﻿using APMCore.Model;
+using APMCore.ViewModel.Helper;
+using System.Data.SQLite;
 using System.Runtime.Serialization.Json;
 
 namespace APMCore.ViewModel {
@@ -98,11 +99,11 @@ namespace APMCore.ViewModel {
         /// <summary>
         /// 数据源
         /// </summary>
-        private readonly Model.UserData _dataSource;
+        private readonly UserData _dataSource;
         #endregion
 
         #region 私有静态字段
-        protected readonly static DataContractJsonSerializer SourceSerializer = new DataContractJsonSerializer(typeof(Model.UserData));
+        protected readonly static DataContractJsonSerializer SourceSerializer = new DataContractJsonSerializer(typeof(UserData));
         #endregion
         #endregion
 
@@ -111,7 +112,7 @@ namespace APMCore.ViewModel {
         /// 表示一个用户配置信息
         /// </summary>
         /// <param name="source">数据源</param>
-        protected UserDataBase(Model.UserData source) {
+        protected UserDataBase(UserData source) {
             _dataSource = source;
         }
         #endregion
@@ -143,9 +144,15 @@ namespace APMCore.ViewModel {
         /// </summary>
         /// <param name="filePath">文件路径</param>
         protected virtual void SaveToFile(string filePath) {
-            using (FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.Write)) {
-                SourceSerializer.WriteObject(file, _dataSource);
-            }
+            UserDataHelper.SaveToFile(_dataSource, filePath);
+        }
+        /// <summary>
+        /// 从文件中读取
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        protected UserData LoadFromFile(string filePath) {
+            return UserDataHelper.LoadFromFile(filePath);
         }
         #endregion
     }

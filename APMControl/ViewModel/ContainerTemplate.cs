@@ -2,7 +2,6 @@
 using APMCore;
 using APMCore.ViewModel;
 using System.Data.SQLite;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace APMControl {
@@ -169,7 +168,7 @@ namespace APMControl {
             await Task.Run(() => {
                 lock (_pairsLocker) {
                     for (int i = 0; i < Pairs.Count; i++) {
-                        var p = Pairs[i] as Pair;
+                        Pair p = Pairs[i] as Pair;
                         if (p.IsEmpty) {
                             _pairs.Remove(p);
                             --i;

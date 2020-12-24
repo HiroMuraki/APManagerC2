@@ -51,8 +51,15 @@ namespace APManagerC2.View {
         private void Login_Click(object sender, RoutedEventArgs e) {
             _commandHandler.Login();
         }
-        private void MakePackage_Click(object sender, RoutedEventArgs e) {
-            _commandHandler.MakePackage();
+        private void PackData_Click(object sender, RoutedEventArgs e) {
+            _commandHandler.PackData();
+        }
+        private void UnpackData_Click(object sender, RoutedEventArgs e) {
+            _commandHandler.UnpackData();
+        }
+        private void OpenMenu_Click(object sender, RoutedEventArgs e) {
+            FrameworkElement element = sender as FrameworkElement;
+            element.ContextMenu.IsOpen = !element.ContextMenu.IsOpen;
         }
         #endregion
 
@@ -70,5 +77,6 @@ namespace APManagerC2.View {
             _commandHandler.KeyDown(e.Key);
         }
         #endregion
+
     }
 }

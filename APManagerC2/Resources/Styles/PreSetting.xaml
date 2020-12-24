@@ -8,8 +8,8 @@
     <sys:String x:Key="WindowClose">&#x2573;</sys:String>
 
     <!--#region 预设颜色-->
-    <SolidColorBrush x:Key="ColorMainDarkBlue" Color="#FF006694"/>
-    <SolidColorBrush x:Key="ColorMainLightBlue" Color="#FF007DB5"/>
+    <SolidColorBrush x:Key="ColorMainDarkBlue" Color="#FF0B5A91"/>
+    <SolidColorBrush x:Key="ColorMainLightBlue" Color="#FF006AAB"/>
     <SolidColorBrush x:Key="ColorMainDarkBlack" Color="#FF363636"/>
     <SolidColorBrush x:Key="ColorMainMediumBlack" Color="#FF3D3D3D"/>
     <SolidColorBrush x:Key="ColorMainLightBlack" Color="#FF5B5B5B"/>
@@ -34,7 +34,6 @@
     <BitmapImage x:Key="Warning" UriSource="/APManagerC2;component/Resources/Images/Warning.png"/>
     <BitmapImage x:Key="TxtIco" UriSource="/APManagerC2;component/Resources/Images/txtIco.png"/>
     <BitmapImage x:Key="Setting" UriSource="/APManagerC2;component/Resources/Images/Setting.png"/>
-    <BitmapImage x:Key="PackUserData" UriSource="/APManagerC2;component/Resources/Images/PackUserData.png"/>
 
     <!--数据容器项目操作图标-->
     <BitmapImage x:Key="Add" UriSource="/APManagerC2;component/Resources/Images/AddDataItem.png"/>

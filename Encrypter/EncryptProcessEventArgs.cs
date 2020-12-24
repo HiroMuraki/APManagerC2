@@ -2,7 +2,7 @@
 
 namespace Encrypter {
     public class EncryptProcessEventArgs : EventArgs {
-        public readonly double _process;
+        private readonly double _process;
 
         /// <summary>
         /// 加密进度

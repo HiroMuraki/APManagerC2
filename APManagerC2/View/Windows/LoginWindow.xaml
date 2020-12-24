@@ -34,14 +34,32 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" HorizontalAlignment="Left">
-                <View:GeneralButton Foreground="White" Width="35" Height="35" Padding="5" Click="MakePackage_Click"
+            <View:GeneralButton Width="35" Height="35" Padding="5" HorizontalAlignment="Left"
+                                Click="OpenMenu_Click">
+                <Button.Content>
+                    <Image Source="{StaticResource Menu}"/>
+                </Button.Content>
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="导出并打包数据" Click="PackData_Click"/>
+                        <MenuItem Header="导入打包的数据" Click="UnpackData_Click"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </View:GeneralButton>
+            <!--StackPanel Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal">
+                <View:GeneralButton Foreground="White" Width="35" Height="35" Padding="5" Click="PackData_Click"
                                     ToolTip="导出并打包数据">
                     <View:GeneralButton.Content>
                         <Image Source="{StaticResource PackUserData}"/>
                     </View:GeneralButton.Content>
                 </View:GeneralButton>
-            </StackPanel>
+                <View:GeneralButton Foreground="White" Width="35" Height="35" Padding="5" Click="UnpackData_Click"
+                                    ToolTip="导入打包的数据">
+                    <View:GeneralButton.Content>
+                        <Image Source="{StaticResource UnpackUserData}"/>
+                    </View:GeneralButton.Content>
+                </View:GeneralButton>
+            </StackPanel-->
             <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal">
                 <View:GeneralButton Content="{StaticResource WindowMinimum}" Foreground="White" Width="35" Height="35" Click="Window_Minimum"/>
                 <View:GeneralButton Content="{StaticResource WindowClose}" Foreground="White" Width="35" Height="35" Click="Window_Close"/>

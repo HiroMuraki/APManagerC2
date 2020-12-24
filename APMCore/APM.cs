@@ -1,24 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace APMCore {
+﻿namespace APMCore {
     /// <summary>
     /// 全局常量与静态只读字段
     /// </summary>
     public static class APM {
-        /// <summary>
-        /// 表
-        /// </summary>
-        public static readonly string[] Tables = new string[] { FiltersTable, ContainersTable, PairsTable };
-
-        /// <summary>
-        /// 表的主键
-        /// </summary>
-        public static readonly Dictionary<string, string> TableUID = new Dictionary<string, string>() {
-            [FiltersTable] = FilterUID,
-            [ContainersTable] = ContainerUID,
-            [PairsTable] = PairUID
-        };
-
         /// <summary>
         /// Filters表名
         /// </summary>

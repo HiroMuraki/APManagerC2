@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using APMCore;
+﻿using APMCore;
+using System.Threading.Tasks;
 
 namespace APMControl.Interface {
     using PairCollection = DispatchedObservableCollection<IPair>;

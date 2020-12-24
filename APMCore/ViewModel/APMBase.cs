@@ -2,7 +2,7 @@
 using System.Data.SQLite;
 
 namespace APMCore.ViewModel {
-    public abstract class APMBase<T> : ViewModelBase, IDataBaseHandler {
+    public abstract class APMBase<T> : ViewModelBase {
         public event EventHandler<RecordUpdatedEventArgs> Updated;
         protected readonly T _dataSource;
 
@@ -15,7 +15,6 @@ namespace APMCore.ViewModel {
                 OnPropertyChanged(nameof(DataBase));
             }
         }
-        private SQLiteConnection _dataBase;
         public virtual UpdateMethod UpdateMethod {
             get {
                 return _updateMethod;
@@ -25,28 +24,24 @@ namespace APMCore.ViewModel {
                 OnPropertyChanged(nameof(DataBase));
             }
         }
+
+        private SQLiteConnection _dataBase;
         private UpdateMethod _updateMethod;
 
         public virtual UpdateInformation UpdateToSource() {
-            return UpdateToSource(DataBase, UpdateMethod);
+            return UpdateToSource(UpdateMethod);
         }
         public virtual UpdateInformation UpdateToSource(UpdateMethod updateMethod) {
-            return UpdateToSource(DataBase, updateMethod);
-        }
-        public virtual UpdateInformation UpdateToSource(SQLiteConnection conn) {
-            return UpdateToSource(conn, UpdateMethod);
-        }
-        public virtual UpdateInformation UpdateToSource(SQLiteConnection conn, UpdateMethod updateMethod) {
             UpdateInformation result;
             switch (updateMethod) {
                 case UpdateMethod.Insert:
-                    result = InsertInto(conn);
+                    result = InsertInto();
                     break;
                 case UpdateMethod.Update:
-                    result = UpdateTo(conn);
+                    result = UpdateTo();
                     break;
                 case UpdateMethod.Delete:
-                    result = DeleteFrom(conn);
+                    result = DeleteFrom();
                     break;
                 default:
                     throw new InvalidOperationException($"无效的操作: {updateMethod}");
@@ -59,10 +54,9 @@ namespace APMCore.ViewModel {
             }
             return result;
         }
-
-        protected abstract UpdateInformation InsertInto(SQLiteConnection conn);
-        protected abstract UpdateInformation UpdateTo(SQLiteConnection conn);
-        protected abstract UpdateInformation DeleteFrom(SQLiteConnection conn);
+        protected abstract UpdateInformation InsertInto();
+        protected abstract UpdateInformation UpdateTo();
+        protected abstract UpdateInformation DeleteFrom();
 
         protected virtual void OnUpdated(UpdateInformation updateInformation) {
             Updated?.Invoke(this, new RecordUpdatedEventArgs(updateInformation));

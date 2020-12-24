@@ -38,18 +38,41 @@ namespace APManagerC2.Command {
         /// <summary>
         /// 打包用户文件
         /// </summary>
-        public async void MakePackage() {
+        public async void PackData() {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "ZIP压缩文件|*.zip";
             sfd.FileName = _userData.UserName;
             sfd.Title = "导出数据";
             if (sfd.ShowDialog() == true) {
                 try {
-                    await APMPackager.MakePackageAsync(sfd.FileName);
+                    await APMPackager.PackAsync(sfd.FileName);
                     Message.Show($"文件已保存至{sfd.FileName}", "保存成功", MessageType.Notice);
                 }
                 catch (Exception e) {
                     Message.Show(e.Message, "保存错误", MessageType.Warning);
+                }
+            }
+        }
+        /// <summary>
+        /// 导入用户文件
+        /// </summary>
+        public async void UnpackData() {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "ZIP压缩文件|*.zip";
+            ofd.FileName = "";
+            ofd.Title = "导入数据";
+            if (ofd.ShowDialog() == true) {
+                Message message = new Message("导入用户文件将会移除当前的用户数据，是否继续?", "警告", MessageType.Warning | MessageType.Select);
+                if (message.ShowDialog() == false) {
+                    return;
+                }
+                try {
+                    await APMPackager.UnpackAsync(ofd.FileName);
+                    Message.Show("导入数据成功，重启以生效", "导入完成", MessageType.Notice);
+                    Application.Current.Shutdown();
+                }
+                catch (Exception e) {
+                    Message.Show(e.Message, "导入错误", MessageType.Warning);
                 }
             }
         }

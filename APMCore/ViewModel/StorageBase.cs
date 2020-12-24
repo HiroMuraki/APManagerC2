@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APMCore.ViewModel.Helper;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
@@ -32,33 +33,14 @@ namespace APMCore.ViewModel {
 
         #region 构造方法
         /// <summary>
-        /// 默认构造函数，初始化集合
-        /// </summary>
-        protected StorageBase() {
-           
-        }
-        /// <summary>
         /// 创建一个关联到指定数据库连接的Storage
         /// </summary>
         /// <param name="conn">关联的数据库</param>
-        public StorageBase(SQLiteConnection conn) : this() {
+        public StorageBase(SQLiteConnection conn) {
             _database = conn;
-
             SQLiteCommand cmd = new SQLiteCommand(conn);
-            foreach (string table in APM.Tables) {
-                cmd.CommandText = $"Select Max({APM.TableUID[table]}) From {table}";
-                object result = cmd.ExecuteScalar();
-                long initUID = (result is DBNull ? 0 : (long)result) + 1;
-
-                switch (table) {
-                    case APM.FiltersTable:
-                        _filterUIDGenerator = new UIDGenerator(initUID);
-                        break;
-                    case APM.ContainersTable:
-                        _containerUIDGenerator = new UIDGenerator(initUID);
-                        break;
-                }
-            }
+            _filterUIDGenerator = new UIDGenerator(GetInitUID(cmd, APM.FilterUID, APM.FiltersTable));
+            _containerUIDGenerator = new UIDGenerator(GetInitUID(cmd, APM.ContainerUID, APM.ContainersTable));
         }
         #endregion
 
@@ -75,7 +57,7 @@ namespace APMCore.ViewModel {
 
             using (SQLiteDataReader results = cmd.ExecuteReader()) {
                 while (results.Read()) {
-                    Model.Filter filter = FilterBase.FetchSourceFrom(results);
+                    Model.Filter filter = FilterHelper.FetchFrom(results);
                     if (predicate(filter)) {
                         yield return filter;
                     }
@@ -96,7 +78,7 @@ namespace APMCore.ViewModel {
                                      Where {APM.ContainerFilter} == {filter.FilterUID}";
                 using (SQLiteDataReader results = cmd.ExecuteReader()) {
                     while (results.Read()) {
-                        Model.Container container = ContainerBase.FetchSourceFrom(results);
+                        Model.Container container = ContainerHelper.FetchFrom(results);
                         if (predicate(container)) {
                             yield return container;
                         }
@@ -133,6 +115,14 @@ namespace APMCore.ViewModel {
             CreateEmptyStorage(conn);
             transaction.Commit();
             conn.Close();
+        }
+        #endregion
+
+        #region 辅助方法
+        private long GetInitUID(SQLiteCommand cmd, string uidField, string tableName) {
+            cmd.CommandText = $"Select Max({uidField}) From {tableName}";
+            object result = cmd.ExecuteScalar();
+            return (result is DBNull ? 0 : (long)result) + 1;
         }
         #endregion
         #endregion

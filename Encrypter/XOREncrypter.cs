@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Encrypter {
     public class XOREncrypter : IBytesEncrypter {
-        public string _key;
+        private string _key;
         /// <summary>
         /// 密钥
         /// </summary>

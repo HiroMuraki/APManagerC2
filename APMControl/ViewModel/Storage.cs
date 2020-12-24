@@ -207,7 +207,7 @@ namespace APMControl {
         /// <returns></returns>
         public async Task<IFilter> AddFilterAsync() {
             Filter filter = await Task.Run(() => {
-                APMCore.Model.Filter source = APMCore.ViewModel.FilterBase.Create(_filterUIDGenerator.Get());
+                APMCore.Model.Filter source = new APMCore.Model.Filter(_filterUIDGenerator.Get());
                 Filter filter = new Filter(source) {
                     DataBase = DataBase
                 };
@@ -226,7 +226,7 @@ namespace APMControl {
         /// <param name="filter"></param>
         public async Task<bool> RemoveFilterAsync(IFilter filter) {
             return await Task.Run(() => {
-                var f = filter as Filter;
+                Filter f = filter as Filter;
                 f.UpdateMethod = APMCore.UpdateMethod.Delete;
                 if (ContainerTemplate.Filter == filter) {
                     ContainerTemplate.Filter = null;
@@ -245,7 +245,7 @@ namespace APMControl {
                 int removeCount = 0;
                 lock (_filtersLocker) {
                     for (int i = 0; i < Filters.Count; i++) {
-                        var f = Filters[i] as Filter;
+                        Filter f = Filters[i] as Filter;
                         if (f.IsEmpty) {
                             RemoveFilterHelper(f);
                             --i;
@@ -294,7 +294,7 @@ namespace APMControl {
         public async Task<bool> RemoveContainerAsync(IContainer container) {
             return await Task.Run(() => {
                 lock (_containersLocker) {
-                    var c = container as Container;
+                    Container c = container as Container;
                     c.UpdateMethod = APMCore.UpdateMethod.Delete;
                     return RemoveContainerHelper(c);
                 }
@@ -309,7 +309,7 @@ namespace APMControl {
                 int removeCount = 0;
                 lock (_containersLocker) {
                     for (int i = 0; i < Containers.Count; i++) {
-                        var c = Containers[i] as Container;
+                        Container c = Containers[i] as Container;
                         if (c.IsEmpty) {
                             RemoveContainerHelper(c);
                             --i;
@@ -327,7 +327,7 @@ namespace APMControl {
         /// <returns></returns>
         public async Task SetContainerToTemplateAsync(IContainer container) {
             await ContainerTemplate.SetAvatarAsync(container.Avatar);
-            var c = container as Container;
+            Container c = container as Container;
             ContainerTemplate.Header = c.Header;
             ContainerTemplate.Description = c.Description;
             ContainerTemplate.Filter = c.Filter;
@@ -400,7 +400,7 @@ namespace APMControl {
             lock (_containersLocker) {
                 foreach (Container container in containers) {
                     for (int i = 0; i < Containers.Count; i++) {
-                        var c = Containers[i] as Container;
+                        Container c = Containers[i] as Container;
                         if (c.ContainerUID == container.ContainerUID) {
                             _containers.Remove(c);
                             --i;

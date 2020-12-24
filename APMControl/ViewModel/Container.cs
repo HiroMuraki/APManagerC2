@@ -3,7 +3,6 @@ using APMCore;
 using APMCore.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.IO;
 using System.Threading.Tasks;
 using static APMControl.APM;
@@ -113,11 +112,11 @@ namespace APMControl {
         /// 更新数据至源
         /// </summary>
         /// <returns></returns>
-        public override UpdateInformation UpdateToSource(SQLiteConnection conn, UpdateMethod updateMethod) {
-            UpdateInformation updateInformation = base.UpdateToSource(conn, updateMethod);
-            if (updateInformation.UpdateMethod == UpdateMethod.Delete) {
+        public override UpdateInformation UpdateToSource(UpdateMethod updateMethod) {
+            UpdateInformation ui = base.UpdateToSource(updateMethod);
+            if (updateMethod == UpdateMethod.Delete) {
                 foreach (Pair pair in FetchPairs((p) => true)) {
-                    pair.UpdateToSource(conn, UpdateMethod.Delete);
+                    pair.UpdateToSource(UpdateMethod.Delete);
                 }
                 if (File.Exists($@"{DataAvatarsFolderName}\{Avatar}")) {
                     File.Delete($@"{DataAvatarsFolderName}\{Avatar}");
@@ -127,7 +126,7 @@ namespace APMControl {
                     pair.UpdateToSource();
                 }
             }
-            return updateInformation;
+            return ui;
         }
         public async Task<UpdateInformation> UpdateToSourceAsync() {
             return await Task.Run(() => {
@@ -162,7 +161,9 @@ namespace APMControl {
         /// <returns>添加的Pair</returns>
         public async Task<IPair> AddPairAsync() {
             Pair pair = await Task.Run(() => {
-                APMCore.Model.Pair source = PairBase.Create(ContainerUID);
+                APMCore.Model.Pair source = new APMCore.Model.Pair(-1) {
+                    ContainerUID = ContainerUID
+                };
                 return new Pair(source) {
                     DataBase = DataBase,
                     UpdateMethod = UpdateMethod.Insert
@@ -180,7 +181,7 @@ namespace APMControl {
         /// </summary>
         /// <param name="pair">要移除的Pair</param>
         public async Task<bool> RemovePairAsync(IPair pair) {
-            var p = pair as Pair;
+            Pair p = pair as Pair;
             p.UpdateMethod = UpdateMethod.Delete;
             return await Task.Run(() => {
                 lock (_pairsLocker) {
@@ -197,7 +198,7 @@ namespace APMControl {
 
             await Task.Run(() => {
                 for (int i = 0; i < Pairs.Count; i++) {
-                    var p = Pairs[i] as Pair;
+                    Pair p = Pairs[i] as Pair;
                     if (p.IsEmpty) {
                         RemovePairHelper(p);
                         --i;

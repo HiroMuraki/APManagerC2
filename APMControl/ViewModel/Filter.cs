@@ -3,7 +3,6 @@ using APMCore;
 using APMCore.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Threading.Tasks;
 
 namespace APMControl {
@@ -44,12 +43,11 @@ namespace APMControl {
         /// 更新数据至源
         /// </summary>
         /// <returns></returns>
-        public override UpdateInformation UpdateToSource(SQLiteConnection conn, UpdateMethod updateMethod) {
-            UpdateInformation updateInformation = base.UpdateToSource(conn, updateMethod);
+        public override UpdateInformation UpdateToSource(UpdateMethod updateMethod) {
+            UpdateInformation updateInformation = base.UpdateToSource(updateMethod);
             if (updateInformation.UpdateMethod == UpdateMethod.Delete) {
                 foreach (Container container in FetchContainers((c) => true)) {
-                    container.UpdateMethod = UpdateMethod.Delete;
-                    container.UpdateToSource();
+                    container.UpdateToSource(UpdateMethod.Delete);
                 }
             }
             return updateInformation;
@@ -84,8 +82,9 @@ namespace APMControl {
         /// <returns>创建的Container</returns>
         public async Task<Container> CreateContainerAsync(long containerUID) {
             Container container = await Task.Run(() => {
-                APMCore.Model.Container source = ContainerBase.Create(containerUID, FilterUID);
+                APMCore.Model.Container source = new APMCore.Model.Container(containerUID);
                 return new Container(source) {
+                    FilterUID = FilterUID,
                     Filter = this,
                     DataBase = DataBase
                 };
