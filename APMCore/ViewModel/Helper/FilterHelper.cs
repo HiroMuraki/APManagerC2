@@ -4,7 +4,12 @@ using System.Data.SQLite;
 
 namespace APMCore.ViewModel.Helper {
     internal static class FilterHelper {
-
+        /// <summary>
+        /// 从指定数据库中抓取源
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="pairUID"></param>
+        /// <returns></returns>
         public static Filter FetchFrom(SQLiteConnection conn, long filterUID) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Select * From {APM.FiltersTable}
@@ -14,7 +19,11 @@ namespace APMCore.ViewModel.Helper {
                 return FetchFrom(cmd.ExecuteReader());
             }
         }
-
+        /// <summary>
+        /// 从指定数据库中抓取源
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         public static Filter FetchFrom(SQLiteDataReader reader) {
             long filterUID = (long)reader[APM.FilterUID];
             string name = reader[APM.FilterName] as string;
@@ -27,7 +36,12 @@ namespace APMCore.ViewModel.Helper {
             };
             return source;
         }
-
+        /// <summary>
+        /// 向指定数据库中更新记录
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="conn"></param>
+        /// <returns></returns>
         public static UpdateInformation Update(Filter source, SQLiteConnection conn) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Update {APM.FiltersTable} 
@@ -38,7 +52,12 @@ namespace APMCore.ViewModel.Helper {
             int impacts = cmd.ExecuteNonQuery();
             return new UpdateInformation(impacts, UpdateMethod.Delete, source.FilterUID);
         }
-
+        /// <summary>
+        /// 向指定数据库中插入一条记录
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="conn"></param>
+        /// <returns></returns>
         public static UpdateInformation Insert(Filter source, SQLiteConnection conn) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Insert Into {APM.FiltersTable}
@@ -53,7 +72,12 @@ namespace APMCore.ViewModel.Helper {
             int impacts = cmd.ExecuteNonQuery();
             return new UpdateInformation(impacts, UpdateMethod.Delete, source.FilterUID);
         }
-
+        /// <summary>
+        /// 从指定数据库中删除记录
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="conn"></param>
+        /// <returns></returns>
         public static UpdateInformation Delete(Filter source, SQLiteConnection conn) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Delete From {APM.FiltersTable}

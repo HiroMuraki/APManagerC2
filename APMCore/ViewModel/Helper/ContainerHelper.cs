@@ -3,7 +3,12 @@ using System.Data.SQLite;
 
 namespace APMCore.ViewModel.Helper {
     internal static class ContainerHelper {
-
+        /// <summary>
+        /// 从指定数据库中抓取源
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="pairUID"></param>
+        /// <returns></returns>
         public static Container FetchFrom(SQLiteConnection conn, long containerUID) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Select * From {APM.ContainersTable}
@@ -13,7 +18,11 @@ namespace APMCore.ViewModel.Helper {
                 return FetchFrom(cmd.ExecuteReader());
             }
         }
-
+        /// <summary>
+        /// 从指定数据库中抓取源
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         public static Container FetchFrom(SQLiteDataReader reader) {
             long containerUID = (long)reader[APM.ContainerUID];
             long filterUID = (long)reader[APM.FilterUID];
@@ -28,7 +37,12 @@ namespace APMCore.ViewModel.Helper {
             };
             return source;
         }
-
+        /// <summary>
+        /// 向指定数据库中更新记录
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="conn"></param>
+        /// <returns></returns>
         public static UpdateInformation Update(Container source, SQLiteConnection conn) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Update {APM.ContainersTable} 
@@ -40,7 +54,12 @@ namespace APMCore.ViewModel.Helper {
             int impacts = cmd.ExecuteNonQuery();
             return new UpdateInformation(impacts, UpdateMethod.Update, source.ContainerUID);
         }
-
+        /// <summary>
+        /// 向指定数据库中插入一条记录
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="conn"></param>
+        /// <returns></returns>
         public static UpdateInformation Insert(Container source, SQLiteConnection conn) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             //插入数据到表
@@ -60,7 +79,12 @@ namespace APMCore.ViewModel.Helper {
             return new UpdateInformation(impacts, UpdateMethod.Insert, source.ContainerUID);
 
         }
-
+        /// <summary>
+        /// 从指定数据库中删除记录
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="conn"></param>
+        /// <returns></returns>
         public static UpdateInformation Delete(Container source, SQLiteConnection conn) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
             cmd.CommandText = $@"Delete From {APM.ContainersTable} 

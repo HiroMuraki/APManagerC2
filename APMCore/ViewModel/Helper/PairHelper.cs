@@ -36,6 +36,21 @@ namespace APMCore.ViewModel.Helper {
             return source;
         }
         /// <summary>
+        /// 向指定数据库中更新记录
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="conn"></param>
+        /// <returns></returns>
+        public static UpdateInformation Update(Pair source, SQLiteConnection conn) {
+            SQLiteCommand cmd = new SQLiteCommand(conn);
+            cmd.CommandText = $@"Update {APM.PairsTable} 
+                                 Set {APM.PairTitle}  = '{source.Title}', 
+                                     {APM.PairDetail} = '{source.Detail}' 
+                                 Where {APM.PairUID} == {source.PairUID}";
+            int impact = cmd.ExecuteNonQuery();
+            return new UpdateInformation(impact, UpdateMethod.Update, source.PairUID);
+        }
+        /// <summary>
         /// 向指定数据库中插入一条记录
         /// </summary>
         /// <param name="source"></param>
@@ -52,21 +67,6 @@ namespace APMCore.ViewModel.Helper {
                                        '{source.Detail}')";
             int impacts = cmd.ExecuteNonQuery();
             return new UpdateInformation(impacts, UpdateMethod.Insert, source.PairUID);
-        }
-        /// <summary>
-        /// 向指定数据库中更新记录
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="conn"></param>
-        /// <returns></returns>
-        public static UpdateInformation Update(Pair source, SQLiteConnection conn) {
-            SQLiteCommand cmd = new SQLiteCommand(conn);
-            cmd.CommandText = $@"Update {APM.PairsTable} 
-                                 Set {APM.PairTitle}  = '{source.Title}', 
-                                     {APM.PairDetail} = '{source.Detail}' 
-                                 Where {APM.PairUID} == {source.PairUID}";
-            int impact = cmd.ExecuteNonQuery();
-            return new UpdateInformation(impact, UpdateMethod.Update, source.PairUID);
         }
         /// <summary>
         /// 从指定数据库中删除记录
