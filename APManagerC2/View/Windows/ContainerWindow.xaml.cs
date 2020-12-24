@@ -15,7 +15,7 @@ namespace APManagerC2.View {
         /// <summary>
         /// 允许的过滤器选择列表
         /// </summary>
-        public IEnumerable<APMControl.Filter> AllowedFilterList {
+        public IEnumerable<IFilter> AllowedFilterList {
             get {
                 return _allowedFilterList;
             }
@@ -36,7 +36,7 @@ namespace APManagerC2.View {
         #endregion
 
         #region 后备字段
-        private IEnumerable<APMControl.Filter> _allowedFilterList;
+        private IEnumerable<IFilter> _allowedFilterList;
         private readonly IContainer _backup;
         private readonly IContainer _container;
         #endregion
@@ -50,7 +50,7 @@ namespace APManagerC2.View {
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        public ContainerWindow(IContainer container, IEnumerable<APMControl.Filter> allowedFilterList) {
+        public ContainerWindow(IContainer container, IEnumerable<IFilter> allowedFilterList) {
             _container = container;
             _backup = new APMControl.Container(new APMCore.Model.Container(-1));
             _allowedFilterList = allowedFilterList;

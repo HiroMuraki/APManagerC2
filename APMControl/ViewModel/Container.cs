@@ -9,22 +9,23 @@ using System.Threading.Tasks;
 using static APMControl.APM;
 
 namespace APMControl {
-    using PairCollection = DispatchedObservableCollection<Pair>;
-    using WorkPairCollection = List<Pair>;
+    using PairCollection = DispatchedObservableCollection<IPair>;
+    using WorkPairCollection = List<IPair>;
+
     public sealed class Container : ContainerBase, IContainer {
         #region 属性
         #region 公共属性
         /// <summary>
         /// 过滤器
         /// </summary>
-        public Filter Filter {
+        public IFilter Filter {
             get {
                 return _filter;
             }
             set {
                 _filter = value;
                 if (value != null) {
-                    FilterUID = value.FilterUID;
+                    FilterUID = (value as Filter).FilterUID;
                 }
                 OnPropertyChanged(nameof(Filter));
             }
@@ -60,7 +61,7 @@ namespace APMControl {
         /// </summary>
         public bool IsEmpty {
             get {
-                return base.CountPairs() == 0 && Header == "" && Description == "";
+                return CountPairs() == 0 && Header == "" && Description == "";
             }
         }
         #endregion
@@ -72,7 +73,7 @@ namespace APMControl {
 
         #region 后备字段
         private double _opacity;
-        private Filter _filter;
+        private IFilter _filter;
         private readonly PairCollection _pairs;
         #endregion
         #endregion
@@ -138,7 +139,7 @@ namespace APMControl {
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public IEnumerable<Pair> FetchPairs(Predicate<APMCore.Model.Pair> predicate) {
+        public IEnumerable<IPair> FetchPairs(Predicate<APMCore.Model.Pair> predicate) {
             foreach (APMCore.Model.Pair source in FetchPairsHelper(predicate)) {
                 yield return new Pair(source);
             }
@@ -149,7 +150,7 @@ namespace APMControl {
         /// <param name="source">数据源</param>
         public async Task CopyPropertiesAsync(IContainer source) {
             await Task.Run(() => {
-                base.CopyProperties(source as ContainerBase);
+                CopyProperties(source as ContainerBase);
                 Filter = source.Filter;
             });
         }
@@ -159,12 +160,12 @@ namespace APMControl {
         /// 添加Pair
         /// </summary>
         /// <returns>添加的Pair</returns>
-        public async Task<Pair> AddPairAsync() {
+        public async Task<IPair> AddPairAsync() {
             Pair pair = await Task.Run(() => {
-                APMCore.Model.Pair source = APMCore.ViewModel.PairBase.Create(ContainerUID);
+                APMCore.Model.Pair source = PairBase.Create(ContainerUID);
                 return new Pair(source) {
                     DataBase = DataBase,
-                    UpdateMethod = APMCore.UpdateMethod.Insert
+                    UpdateMethod = UpdateMethod.Insert
                 };
             });
             await Task.Run(() => {
@@ -178,11 +179,12 @@ namespace APMControl {
         /// 移除Pair
         /// </summary>
         /// <param name="pair">要移除的Pair</param>
-        public async Task<bool> RemovePairAsync(Pair pair) {
-            pair.UpdateMethod = APMCore.UpdateMethod.Delete;
+        public async Task<bool> RemovePairAsync(IPair pair) {
+            var p = pair as Pair;
+            p.UpdateMethod = UpdateMethod.Delete;
             return await Task.Run(() => {
                 lock (_pairsLocker) {
-                    return RemovePairHelper(pair);
+                    return RemovePairHelper(p);
                 }
             });
         }
@@ -195,8 +197,9 @@ namespace APMControl {
 
             await Task.Run(() => {
                 for (int i = 0; i < Pairs.Count; i++) {
-                    if (Pairs[i].IsEmpty) {
-                        RemovePairHelper(Pairs[i]);
+                    var p = Pairs[i] as Pair;
+                    if (p.IsEmpty) {
+                        RemovePairHelper(p);
                         --i;
                         ++removeCount;
                     }
@@ -244,10 +247,10 @@ namespace APMControl {
         }
         private void ReloadPairs() {
             ClearPairsHelper();
-            foreach (APMCore.Model.Pair source in base.FetchPairsHelper((p) => true)) {
+            foreach (APMCore.Model.Pair source in FetchPairsHelper((p) => true)) {
                 Pair pair = new Pair(source) {
                     DataBase = DataBase,
-                    UpdateMethod = APMCore.UpdateMethod.Update
+                    UpdateMethod = UpdateMethod.Update
                 };
                 LoadPairHelper(pair);
             }

@@ -9,8 +9,8 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace APMControl {
-    using ContainerCollection = DispatchedObservableCollection<Container>;
-    using FilterCollection = DispatchedObservableCollection<Filter>;
+    using ContainerCollection = DispatchedObservableCollection<IContainer>;
+    using FilterCollection = DispatchedObservableCollection<IFilter>;
 
     public sealed class Storage : APMCore.ViewModel.StorageBase, IStorage, IDisposable {
         #region 属性
@@ -181,7 +181,7 @@ namespace APMControl {
         /// <summary>
         /// 聚焦Containers
         /// </summary>
-        public async Task FocusContainersAsync(Filter filter) {
+        public async Task FocusContainersAsync(IFilter filter) {
             await Task.Run(() => {
                 lock (_containersLocker) {
                     if (filter == null || filter.IsOn == false) {
@@ -190,7 +190,7 @@ namespace APMControl {
                         }
                     } else {
                         foreach (Container container in _containers) {
-                            if (container.FilterUID == filter.FilterUID) {
+                            if (container.FilterUID == (filter as Filter).FilterUID) {
                                 container.Opacity = 1;
                             } else {
                                 container.Opacity = 0.25;
@@ -205,7 +205,7 @@ namespace APMControl {
         /// 添加一个Filter
         /// </summary>
         /// <returns></returns>
-        public async Task<Filter> AddFilterAsync() {
+        public async Task<IFilter> AddFilterAsync() {
             Filter filter = await Task.Run(() => {
                 APMCore.Model.Filter source = APMCore.ViewModel.FilterBase.Create(_filterUIDGenerator.Get());
                 Filter filter = new Filter(source) {
@@ -224,14 +224,15 @@ namespace APMControl {
         /// 移除一个Filter
         /// </summary>
         /// <param name="filter"></param>
-        public async Task<bool> RemoveFilterAsync(Filter filter) {
+        public async Task<bool> RemoveFilterAsync(IFilter filter) {
             return await Task.Run(() => {
-                filter.UpdateMethod = APMCore.UpdateMethod.Delete;
+                var f = filter as Filter;
+                f.UpdateMethod = APMCore.UpdateMethod.Delete;
                 if (ContainerTemplate.Filter == filter) {
                     ContainerTemplate.Filter = null;
                 }
                 lock (_filtersLocker) {
-                    return RemoveFilterHelper(filter);
+                    return RemoveFilterHelper(f);
                 }
             });
         }
@@ -244,8 +245,9 @@ namespace APMControl {
                 int removeCount = 0;
                 lock (_filtersLocker) {
                     for (int i = 0; i < Filters.Count; i++) {
-                        if (Filters[i].IsEmpty) {
-                            RemoveFilterHelper(Filters[i]);
+                        var f = Filters[i] as Filter;
+                        if (f.IsEmpty) {
+                            RemoveFilterHelper(f);
                             --i;
                             removeCount += 1;
                         }
@@ -259,7 +261,7 @@ namespace APMControl {
         /// 添加一个Container
         /// </summary>
         /// <returns></returns>
-        public async Task<Container> AddContainerAsync() {
+        public async Task<IContainer> AddContainerAsync() {
             await Task.Run(() => {
                 if (_containerTemplate.Filter == null) {
                     foreach (Filter filter in Filters) {
@@ -289,11 +291,12 @@ namespace APMControl {
         /// 移除一个Container
         /// </summary>
         /// <param name="container"></param>
-        public async Task<bool> RemoveContainerAsync(Container container) {
+        public async Task<bool> RemoveContainerAsync(IContainer container) {
             return await Task.Run(() => {
                 lock (_containersLocker) {
-                    container.UpdateMethod = APMCore.UpdateMethod.Delete;
-                    return RemoveContainerHelper(container);
+                    var c = container as Container;
+                    c.UpdateMethod = APMCore.UpdateMethod.Delete;
+                    return RemoveContainerHelper(c);
                 }
             });
         }
@@ -306,8 +309,9 @@ namespace APMControl {
                 int removeCount = 0;
                 lock (_containersLocker) {
                     for (int i = 0; i < Containers.Count; i++) {
-                        if (Containers[i].IsEmpty) {
-                            RemoveContainerHelper(Containers[i]);
+                        var c = Containers[i] as Container;
+                        if (c.IsEmpty) {
+                            RemoveContainerHelper(c);
                             --i;
                             removeCount += 1;
                         }
@@ -321,15 +325,16 @@ namespace APMControl {
         /// </summary>
         /// <param name="container">要复制内容的Container</param>
         /// <returns></returns>
-        public async Task SetContainerToTemplateAsync(Container container) {
+        public async Task SetContainerToTemplateAsync(IContainer container) {
             await ContainerTemplate.SetAvatarAsync(container.Avatar);
-            ContainerTemplate.Header = container.Header;
-            ContainerTemplate.Description = container.Description;
-            ContainerTemplate.Filter = container.Filter;
-            ContainerTemplate.FilterUID = container.FilterUID;
+            var c = container as Container;
+            ContainerTemplate.Header = c.Header;
+            ContainerTemplate.Description = c.Description;
+            ContainerTemplate.Filter = c.Filter;
+            ContainerTemplate.FilterUID = c.FilterUID;
             ContainerTemplate.Pairs.Clear();
-            foreach (Pair pairSource in container.FetchPairs((p) => true)) {
-                Pair pair = await ContainerTemplate.AddPairAsync();
+            foreach (IPair pairSource in c.FetchPairs((p) => true)) {
+                IPair pair = await ContainerTemplate.AddPairAsync();
                 pair.Title = pairSource.Title;
                 pair.Detail = pairSource.Detail;
             }
@@ -395,8 +400,9 @@ namespace APMControl {
             lock (_containersLocker) {
                 foreach (Container container in containers) {
                     for (int i = 0; i < Containers.Count; i++) {
-                        if (Containers[i].ContainerUID == container.ContainerUID) {
-                            _containers.Remove(Containers[i]);
+                        var c = Containers[i] as Container;
+                        if (c.ContainerUID == container.ContainerUID) {
+                            _containers.Remove(c);
                             --i;
                         }
                     }

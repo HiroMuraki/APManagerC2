@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 
 namespace APMControl.Interface {
-    using ContainerCollection = DispatchedObservableCollection<Container>;
-    using FilterCollection = DispatchedObservableCollection<Filter>;
+    using ContainerCollection = DispatchedObservableCollection<IContainer>;
+    using FilterCollection = DispatchedObservableCollection<IFilter>;
 
     public interface IStorage : IDisposable {
         /// <summary>
@@ -51,18 +51,18 @@ namespace APMControl.Interface {
         /// <summary>
         /// 聚焦Containers
         /// </summary>
-        Task FocusContainersAsync(Filter filter);
+        Task FocusContainersAsync(IFilter filter);
 
         /// <summary>
         /// 添加一个Filter
         /// </summary>
         /// <returns></returns>
-        Task<Filter> AddFilterAsync();
+        Task<IFilter> AddFilterAsync();
         /// <summary>
         /// 移除一个Filter
         /// </summary>
         /// <param name="filter"></param>
-        Task<bool> RemoveFilterAsync(Filter filter);
+        Task<bool> RemoveFilterAsync(IFilter filter);
         /// <summary>
         /// 移除所有空Filter
         /// </summary>
@@ -73,12 +73,12 @@ namespace APMControl.Interface {
         /// 添加一个Container
         /// </summary>
         /// <returns></returns>
-        Task<Container> AddContainerAsync();
+        Task<IContainer> AddContainerAsync();
         /// <summary>
         /// 移除一个Container
         /// </summary>
         /// <param name="container"></param>
-        Task<bool> RemoveContainerAsync(Container container);
+        Task<bool> RemoveContainerAsync(IContainer container);
         /// <summary>
         /// 移除所有空Container
         /// </summary>
@@ -89,6 +89,6 @@ namespace APMControl.Interface {
         /// </summary>
         /// <param name="container">要复制内容的Container</param>
         /// <returns></returns>
-        Task SetContainerToTemplateAsync(Container container);
+        Task SetContainerToTemplateAsync(IContainer container);
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System.Threading.Tasks;
+using APMCore;
 
 namespace APMControl.Interface {
-    using PairCollection = DispatchedObservableCollection<Pair>;
+    using PairCollection = DispatchedObservableCollection<IPair>;
     public interface IContainer {
-        /// <summary>
-        /// 所属过滤器唯一标识符
-        /// </summary>
-        long FilterUID { get; set; }
         /// <summary>
         /// 标题
         /// </summary>
@@ -22,7 +19,7 @@ namespace APMControl.Interface {
         /// <summary>
         /// Filter
         /// </summary>
-        Filter Filter { get; set; }
+        IFilter Filter { get; set; }
         /// <summary>
         /// Pair组
         /// </summary>
@@ -45,17 +42,17 @@ namespace APMControl.Interface {
         /// 更新数据至源
         /// </summary>
         /// <returns></returns>
-        Task<APMCore.UpdateInformation> UpdateToSourceAsync();
+        Task<UpdateInformation> UpdateToSourceAsync();
         /// <summary>
         /// 添加Pair
         /// </summary>
         /// <returns>添加的Pair</returns>
-        Task<Pair> AddPairAsync();
+        Task<IPair> AddPairAsync();
         /// <summary>
         /// 移除Pair
         /// </summary>
         /// <param name="pair">要移除的Pair</param>
-        Task<bool> RemovePairAsync(Pair pair);
+        Task<bool> RemovePairAsync(IPair pair);
         /// <summary>
         /// 设置Container头像
         /// </summary>

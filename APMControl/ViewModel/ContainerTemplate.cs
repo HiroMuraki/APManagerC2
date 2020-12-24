@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 namespace APMControl {
-    using PairCollection = DispatchedObservableCollection<Pair>;
+    using PairCollection = DispatchedObservableCollection<IPair>;
     public sealed class ContainerTemplate : ContainerBase, IContainer {
         #region 属性
         #region 公共属性
@@ -15,14 +15,14 @@ namespace APMControl {
                 return _pairs;
             }
         }
-        public Filter Filter {
+        public IFilter Filter {
             get {
                 return _filter;
             }
             set {
                 _filter = value;
                 if (value != null) {
-                    _dataSource.FilterUID = value.FilterUID;
+                    _dataSource.FilterUID = (value as Filter).FilterUID;
                 }
                 OnPropertyChanged(nameof(Filter));
             }
@@ -34,7 +34,7 @@ namespace APMControl {
         #endregion
 
         #region 后备字段
-        private Filter _filter;
+        private IFilter _filter;
         private readonly PairCollection _pairs;
         #endregion
         #endregion
@@ -79,7 +79,7 @@ namespace APMControl {
             Header = source.Header;
             Description = source.Description;
             Filter = source.Filter;
-            FilterUID = source.FilterUID;
+            FilterUID = (source as Container).FilterUID;
             await Task.Run(() => {
                 lock (_pairsLocker) {
                     _pairs.Clear();
@@ -114,8 +114,8 @@ namespace APMControl {
 
             container.UpdateToSource(UpdateMethod.Insert);
 
-            foreach (Pair pair in Pairs) {
-                Pair sourcePair = await container.AddPairAsync();
+            foreach (IPair pair in Pairs) {
+                IPair sourcePair = await container.AddPairAsync();
                 sourcePair.Title = pair.Title;
                 sourcePair.Detail = pair.Detail;
             }
@@ -129,7 +129,7 @@ namespace APMControl {
         /// 添加Pair
         /// </summary>
         /// <returns>添加的Pair</returns>
-        public async Task<Pair> AddPairAsync() {
+        public async Task<IPair> AddPairAsync() {
             Pair pair = await Task.Run(() => {
                 APMCore.Model.Pair source = new APMCore.Model.Pair(-1) {
                     ContainerUID = ContainerUID,
@@ -152,7 +152,7 @@ namespace APMControl {
         /// 移除Piar
         /// </summary>
         /// <param name="pair">要移除的Pair</param>
-        public async Task<bool> RemovePairAsync(Pair pair) {
+        public async Task<bool> RemovePairAsync(IPair pair) {
             return await Task.Run(() => {
                 lock (_pairsLocker) {
                     return _pairs.Remove(pair);
@@ -169,8 +169,9 @@ namespace APMControl {
             await Task.Run(() => {
                 lock (_pairsLocker) {
                     for (int i = 0; i < Pairs.Count; i++) {
-                        if (Pairs[i].IsEmpty) {
-                            _pairs.Remove(Pairs[i]);
+                        var p = Pairs[i] as Pair;
+                        if (p.IsEmpty) {
+                            _pairs.Remove(p);
                             --i;
                             ++removeCount;
                         }

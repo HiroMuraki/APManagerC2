@@ -30,7 +30,7 @@ namespace APManagerC2.Command {
         /// 添加数据条目
         /// </summary>
         public async void AddPair(string name) {
-            APMControl.Pair pair = await _container.AddPairAsync();
+            IPair pair = await _container.AddPairAsync();
             switch (name) {
                 case "empty":
                     break;

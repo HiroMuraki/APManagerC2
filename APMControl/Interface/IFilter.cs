@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using APMCore;
 
 namespace APMControl.Interface {
     public interface IFilter {
@@ -15,12 +16,16 @@ namespace APMControl.Interface {
         /// </summary>
         bool IsOn { get; }
 
+        /// <summary>
+        /// 切换Filter状态
+        /// </summary>
+        /// <returns></returns>
         Task ToggleAsync();
         /// <summary>
         /// 更新数据至源
         /// </summary>
         /// <returns></returns>
-        Task<APMCore.UpdateInformation> UpdateToSourceAsync();
+        Task<UpdateInformation> UpdateToSourceAsync();
         /// <summary>
         /// 复制属性
         /// </summary>

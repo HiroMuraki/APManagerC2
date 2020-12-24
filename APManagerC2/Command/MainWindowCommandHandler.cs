@@ -41,7 +41,7 @@ namespace APManagerC2.Command {
         /// 添加数据标签
         /// </summary>
         public async void AddFilter() {
-            Filter filter = await _userData.Storage.AddFilterAsync();
+            IFilter filter = await _userData.Storage.AddFilterAsync();
         }
         /// <summary>
         /// 删除数据标签
@@ -108,7 +108,7 @@ namespace APManagerC2.Command {
         /// 添加数据容器
         /// </summary>
         public async void AddContainer() {
-            Container container = await _userData.Storage.AddContainerAsync();
+            IContainer container = await _userData.Storage.AddContainerAsync();
         }
         /// <summary>
         /// 删除数据容器
