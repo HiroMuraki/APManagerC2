@@ -27,15 +27,21 @@ namespace Encrypter {
             Key = key;
         }
 
-        public void Decrypt(byte[] buffer, int size) {
+        public byte[] Decrypt(byte[] buffer) {
+            int size = buffer.Length;
+            byte[] output = new byte[size];
             for (int i = 0; i < size; i++) {
-                buffer[i] ^= GetToken(i);
+                output[i] = (byte)(buffer[i] ^ GetToken(i));
             }
+            return output;
         }
-        public void Encrypt(byte[] buffer, int size) {
+        public byte[] Encrypt(byte[] buffer) {
+            int size = buffer.Length;
+            byte[] output = new byte[size];
             for (int i = 0; i < size; i++) {
-                buffer[i] ^= GetToken(i);
+                output[i] = (byte)(buffer[i] ^ GetToken(i));
             }
+            return output;
         }
 
         /// <summary>
