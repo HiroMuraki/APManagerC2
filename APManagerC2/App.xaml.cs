@@ -43,15 +43,15 @@ namespace APManagerC2 {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Application_Exit(object sender, ExitEventArgs e) {
-            await _userData.CloseStorageAsync();
+        private void Application_Exit(object sender, ExitEventArgs e) {
+            _userData.CloseStorageAsync().Wait(TimeSpan.FromSeconds(2));
         }
         /// <summary>
         /// 储存库加密时引发的事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void UserData_StorageEncrypted(object sender, APMControl.StorageEncryptedEventArgs e) {
+        private void UserData_StorageEncrypted(object sender, StorageEncryptedEventArgs e) {
             Message.Show($"已保存并对储存库进行了重新加密\n密钥为：{e.Password}", "保存成功", MessageType.Notice);
         }
         /// <summary>
