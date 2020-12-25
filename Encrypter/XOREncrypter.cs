@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 namespace Encrypter {
     public class XOREncrypter : IBytesEncrypter {
         private string _key;
+        private readonly int _encryptBufferSize = 32 * 1024;
+        private readonly int _decryptBufferSize = 32 * 1024;
+
         /// <summary>
         /// 密钥
         /// </summary>
@@ -20,6 +23,16 @@ namespace Encrypter {
                     throw new InvalidOperationException("密码必须由ASCII可打印字符构成");
                 }
                 _key = value;
+            }
+        }
+        public int EncryptBufferSize {
+            get {
+                return _encryptBufferSize;
+            }
+        }
+        public int DecryptBufferSize {
+            get {
+                return _decryptBufferSize;
             }
         }
 

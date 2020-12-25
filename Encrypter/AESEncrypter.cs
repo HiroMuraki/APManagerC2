@@ -15,6 +15,19 @@ namespace Encrypter {
         private Aes _aes;
         private ICryptoTransform _encryter;
         private ICryptoTransform _decrypter;
+        private readonly int _encryptBufferSize = 32 * 8;
+        private readonly int _decryptBufferSize = 32 * 8 + 16;
+
+        public int EncryptBufferSize {
+            get {
+                return _encryptBufferSize;
+            }
+        }
+        public int DecryptBufferSize {
+            get {
+                return _decryptBufferSize;
+            }
+        }
 
         public AESEncrypter(string key) {
             _aes = Aes.Create();

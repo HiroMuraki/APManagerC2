@@ -1,6 +1,14 @@
 ﻿namespace Encrypter.Interface {
     public interface IBytesEncrypter {
         /// <summary>
+        /// 加密缓冲区大小
+        /// </summary>
+        int EncryptBufferSize { get; }
+        /// <summary>
+        /// 解密缓冲区大小
+        /// </summary>
+        int DecryptBufferSize { get; }
+        /// <summary>
         /// 加密字节流
         /// </summary>
         /// <param name="buffer">要加密的字节流</param>

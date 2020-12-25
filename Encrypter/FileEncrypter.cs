@@ -4,9 +4,6 @@ using System.IO;
 
 namespace Encrypter {
     public class FileEncrypter {
-        const int _bitPerByte = 8;
-        const int _bufferSize = 32 * _bitPerByte;
-
         private IBytesEncrypter _encrypter;
 
         public FileEncrypter(IBytesEncrypter encrypter) {
@@ -14,7 +11,7 @@ namespace Encrypter {
         }
 
         public void Encrypt(string sourceFile, string outputFile) {
-            ProcessCore(sourceFile, outputFile, _encrypter.Encrypt, _bufferSize);
+            ProcessCore(sourceFile, outputFile, _encrypter.Encrypt, _encrypter.EncryptBufferSize);
 
         }
         public void Encrypt(string sourceFile) {
@@ -23,7 +20,7 @@ namespace Encrypter {
             File.Move(tempFileName, sourceFile, true);
         }
         public void Decrypt(string sourceFile, string outputFile) {
-            ProcessCore(sourceFile, outputFile, _encrypter.Decrypt, _bufferSize + 16);
+            ProcessCore(sourceFile, outputFile, _encrypter.Decrypt, _encrypter.DecryptBufferSize);
         }
         public void Decrypt(string sourceFile) {
             string tempFileName = GetTempFileName(sourceFile);
