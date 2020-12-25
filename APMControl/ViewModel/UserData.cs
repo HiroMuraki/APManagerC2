@@ -141,6 +141,9 @@ namespace APMControl {
             await Task.Run(() => {
                 lock (_storageFileLocker) {
                     _storage?.Dispose();
+                    if (_dataBase != null && _dataBase.State == System.Data.ConnectionState.Open) {
+                        APMCore.ViewModel.StorageBase.EmptyStorage(_dataBase);
+                    }
                     _dataBase?.Close();
                 }
             });

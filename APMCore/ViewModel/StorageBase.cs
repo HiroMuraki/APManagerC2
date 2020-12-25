@@ -116,6 +116,33 @@ namespace APMCore.ViewModel {
             transaction.Commit();
             conn.Close();
         }
+        /// <summary>
+        /// 清空储存库
+        /// </summary>
+        /// <param name="conn">数据库</param>
+        public static void EmptyStorage(SQLiteConnection conn) {
+            SQLiteCommand cmd = new SQLiteCommand(conn);
+            SQLiteTransaction transaction = conn.BeginTransaction();
+            cmd.CommandText = $@"Drop Table If Exists {APM.PairsTable}";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = $@"Drop Table If Exists {APM.ContainersTable}";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = $@"Drop Table If Exists {APM.FiltersTable}";
+            cmd.ExecuteNonQuery();
+            transaction.Commit();
+        }
+        /// <summary>
+        /// 请空储存库
+        /// </summary>
+        /// <param name="storageFile">数据库文件</param>
+        public static void EmptyStorage(string storageFile) {
+            SQLiteConnection conn = new SQLiteConnection($"data source = {storageFile}");
+            conn.Open();
+            SQLiteTransaction transaction = conn.BeginTransaction();
+            EmptyStorage(conn);
+            transaction.Commit();
+            conn.Close();
+        }
         #endregion
 
         #region 辅助方法
