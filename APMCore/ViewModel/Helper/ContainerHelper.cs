@@ -44,15 +44,13 @@ namespace APMCore.ViewModel.Helper {
         /// <param name="conn"></param>
         /// <returns></returns>
         public static UpdateInformation Update(Container source, SQLiteConnection conn) {
-            SQLiteCommand cmd = new SQLiteCommand(conn);
-            cmd.CommandText = $@"Update {APM.ContainersTable} 
+            string sql= $@"Update {APM.ContainersTable} 
                                  Set {APM.ContainerFilter}     =  {source.FilterUID}, 
                                      {APM.ContainerHeader}     = '{source.Header}', 
                                      {APM.ContainerDescrption} = '{source.Description}', 
                                      {APM.ContainerAvatar}     = '{source.Avatar}' 
                                  Where {APM.ContainerUID}      == {source.ContainerUID}";
-            int impacts = cmd.ExecuteNonQuery();
-            return new UpdateInformation(impacts, UpdateMethod.Update, source.ContainerUID);
+            return ExecuteSqlCore(source, conn, sql, UpdateMethod.Update);
         }
         /// <summary>
         /// 向指定数据库中插入一条记录
@@ -61,9 +59,7 @@ namespace APMCore.ViewModel.Helper {
         /// <param name="conn"></param>
         /// <returns></returns>
         public static UpdateInformation Insert(Container source, SQLiteConnection conn) {
-            SQLiteCommand cmd = new SQLiteCommand(conn);
-            //插入数据到表
-            cmd.CommandText = $@"Insert Into {APM.ContainersTable}
+            string sql= $@"Insert Into {APM.ContainersTable}
                                            ({APM.ContainerUID}, 
                                             {APM.ContainerFilter}, 
                                             {APM.ContainerHeader}, 
@@ -74,10 +70,7 @@ namespace APMCore.ViewModel.Helper {
                                            '{source.Header}', 
                                            '{source.Description}',
                                            '{source.Avatar}')";
-            int impacts = cmd.ExecuteNonQuery();
-            //获取插入的UID
-            return new UpdateInformation(impacts, UpdateMethod.Insert, source.ContainerUID);
-
+            return ExecuteSqlCore(source, conn, sql, UpdateMethod.Insert);
         }
         /// <summary>
         /// 从指定数据库中删除记录
@@ -86,11 +79,17 @@ namespace APMCore.ViewModel.Helper {
         /// <param name="conn"></param>
         /// <returns></returns>
         public static UpdateInformation Delete(Container source, SQLiteConnection conn) {
-            SQLiteCommand cmd = new SQLiteCommand(conn);
-            cmd.CommandText = $@"Delete From {APM.ContainersTable} 
+            string sql = $@"Delete From {APM.ContainersTable} 
                                  Where {APM.ContainerUID} == {source.ContainerUID} ";
-            int impacts = cmd.ExecuteNonQuery();
-            return new UpdateInformation(impacts, UpdateMethod.Delete, source.ContainerUID);
+            return ExecuteSqlCore(source, conn, sql, UpdateMethod.Delete);
         }
+
+        private static UpdateInformation ExecuteSqlCore(Container source, SQLiteConnection conn, string sql, UpdateMethod updateMethod) {
+            SQLiteCommand cmd = new SQLiteCommand(conn);
+            cmd.CommandText = sql;
+            int impacts = cmd.ExecuteNonQuery();
+            return new UpdateInformation(impacts, updateMethod, source.ContainerUID);
+        }
+
     }
 }

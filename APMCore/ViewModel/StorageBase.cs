@@ -94,42 +94,21 @@ namespace APMCore.ViewModel {
         /// </summary>
         /// <param name="conn">指定的数据库</param>
         public static void CreateEmptyStorage(SQLiteConnection conn) {
-            SQLiteCommand cmd = new SQLiteCommand(conn);
-            foreach (string tableCreater in APM.TableCreaters) {
-                cmd.CommandText = tableCreater;
-                cmd.ExecuteNonQuery();
-            }
+            StorageHelper.Create(conn);
         }
         /// <summary>
         /// 创建指定的数据储存库文件
         /// </summary>
         /// <param name="conn">文件路径</param>
         public static void CreateEmptyStorage(string storageFile) {
-            if (File.Exists(storageFile)) {
-                throw new IOException();
-            }
-            SQLiteConnection.CreateFile(storageFile);
-            SQLiteConnection conn = new SQLiteConnection("data source = " + storageFile);
-            conn.Open();
-            SQLiteTransaction transaction = conn.BeginTransaction();
-            CreateEmptyStorage(conn);
-            transaction.Commit();
-            conn.Close();
+            StorageHelper.Create(storageFile);
         }
         /// <summary>
         /// 清空储存库
         /// </summary>
         /// <param name="conn">数据库</param>
         public static void EmptyStorage(SQLiteConnection conn) {
-            SQLiteCommand cmd = new SQLiteCommand(conn);
-            SQLiteTransaction transaction = conn.BeginTransaction();
-            cmd.CommandText = $@"Drop Table If Exists {APM.PairsTable}";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = $@"Drop Table If Exists {APM.ContainersTable}";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = $@"Drop Table If Exists {APM.FiltersTable}";
-            cmd.ExecuteNonQuery();
-            transaction.Commit();
+            StorageHelper.Empty(conn);
         }
         /// <summary>
         /// 请空储存库

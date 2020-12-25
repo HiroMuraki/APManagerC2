@@ -39,43 +39,5 @@
         public const string PairContainer = "ContainerUID"; //记录组所属容器
         public const string PairTitle = "Title"; //记录组标题
         public const string PairDetail = "Detail"; //记录组细节
-
-        /// <summary>
-        /// 创建表的语句组
-        /// </summary>
-        public static readonly string[] TableCreaters = new string[] {
-            //Filters
-            $@"Create Table Filters
-               (
-                   [{FilterUID}]        Integer Not Null,
-                   [{FilterName}]       Text    Not Null,
-                   [{FilterIdentifier}] Text    Not Null,
-                   [{FilterIsOn}]       Integer Not Null,
-                   Primary Key([{FilterUID}] Autoincrement)
-               )",
-
-            //Contaienrs
-            $@"Create Table Containers
-               (
-                   [{ContainerUID}]        Integer Not Null,
-                   [{ContainerFilter}]     Integer Not Null,
-                   [{ContainerHeader}]     Text    Not Null,
-                   [{ContainerDescrption}] Text    Not Null,
-                   [{ContainerAvatar}]     Text    Not Null,
-                   Primary Key([{ContainerUID}] Autoincrement),
-                   Foreign Key([{FilterUID}]) References {FiltersTable}([{FilterUID}]) On Update Cascade
-               )",
-
-            //Pairs
-            $@"Create Table Pairs
-               (
-                   [{PairUID}]       Integer Not Null,
-                   [{PairContainer}] Integer Not Null,
-                   [{PairTitle}]     Text    Not Null,
-                   [{PairDetail}]    Text    Not Null,
-                   Primary Key([{PairUID}] Autoincrement),
-                   Foreign Key([{ContainerUID}]) References {ContainersTable}([{ContainerUID}]) On Update Cascade 
-               )"
-        };
     }
 }

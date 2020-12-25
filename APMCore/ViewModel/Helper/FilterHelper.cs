@@ -43,14 +43,12 @@ namespace APMCore.ViewModel.Helper {
         /// <param name="conn"></param>
         /// <returns></returns>
         public static UpdateInformation Update(Filter source, SQLiteConnection conn) {
-            SQLiteCommand cmd = new SQLiteCommand(conn);
-            cmd.CommandText = $@"Update {APM.FiltersTable} 
-                                 Set {APM.FilterName}       = '{source.Name}', 
-                                     {APM.FilterIdentifier} = '{source.Identifier}',
-                                     {APM.FilterIsOn}       =  {source.IsOn}
-                                 Where {APM.FilterUID} = {source.FilterUID}";
-            int impacts = cmd.ExecuteNonQuery();
-            return new UpdateInformation(impacts, UpdateMethod.Update, source.FilterUID);
+            string sql = $@"Update {APM.FiltersTable} 
+                            Set {APM.FilterName}       = '{source.Name}', 
+                                {APM.FilterIdentifier} = '{source.Identifier}',
+                                {APM.FilterIsOn}       =  {source.IsOn}
+                            Where {APM.FilterUID} = {source.FilterUID}";
+            return ExecuteSqlCore(source, conn, sql, UpdateMethod.Update);
         }
         /// <summary>
         /// 向指定数据库中插入一条记录
@@ -59,8 +57,7 @@ namespace APMCore.ViewModel.Helper {
         /// <param name="conn"></param>
         /// <returns></returns>
         public static UpdateInformation Insert(Filter source, SQLiteConnection conn) {
-            SQLiteCommand cmd = new SQLiteCommand(conn);
-            cmd.CommandText = $@"Insert Into {APM.FiltersTable}
+            string sql = $@"Insert Into {APM.FiltersTable}
                                        ({APM.FilterUID}, 
                                         {APM.FilterName},
                                         {APM.FilterIdentifier},
@@ -69,8 +66,7 @@ namespace APMCore.ViewModel.Helper {
                                        '{source.Name}', 
                                        '{source.Identifier}', 
                                         {source.IsOn})";
-            int impacts = cmd.ExecuteNonQuery();
-            return new UpdateInformation(impacts, UpdateMethod.Insert, source.FilterUID);
+            return ExecuteSqlCore(source, conn, sql, UpdateMethod.Insert);
         }
         /// <summary>
         /// 从指定数据库中删除记录
@@ -79,11 +75,16 @@ namespace APMCore.ViewModel.Helper {
         /// <param name="conn"></param>
         /// <returns></returns>
         public static UpdateInformation Delete(Filter source, SQLiteConnection conn) {
+            string sql = $@"Delete From {APM.FiltersTable}
+                            Where {APM.FilterUID} == {source.FilterUID}";
+            return ExecuteSqlCore(source, conn, sql, UpdateMethod.Delete);
+        }
+
+        private static UpdateInformation ExecuteSqlCore(Filter source, SQLiteConnection conn, string sql, UpdateMethod updateMethod) {
             SQLiteCommand cmd = new SQLiteCommand(conn);
-            cmd.CommandText = $@"Delete From {APM.FiltersTable}
-                                 Where {APM.FilterUID} == {source.FilterUID}";
+            cmd.CommandText = sql;
             int impacts = cmd.ExecuteNonQuery();
-            return new UpdateInformation(impacts, UpdateMethod.Delete, source.FilterUID);
+            return new UpdateInformation(impacts, updateMethod, source.FilterUID);
         }
     }
 }

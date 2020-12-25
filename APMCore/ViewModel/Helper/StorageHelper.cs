@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using static APMCore.APM;
+using System.IO;
 
 namespace APMCore.ViewModel.Helper {
     internal static class StorageHelper {
-        public static void Create(string filePath) {
-            string[] sqls = new string[] {
+        private static readonly string[] _tableCreater = new string[] {
             //Filters
-            $@"Create Table Filters
+            $@"Create Table If Not Exists {FiltersTable}
                (
                    [{FilterUID}]        Integer Not Null,
                    [{FilterName}]       Text    Not Null,
@@ -21,7 +21,7 @@ namespace APMCore.ViewModel.Helper {
                )",
 
             //Contaienrs
-            $@"Create Table Containers
+            $@"Create Table If Not Exists {ContainersTable}
                (
                    [{ContainerUID}]        Integer Not Null,
                    [{ContainerFilter}]     Integer Not Null,
@@ -33,7 +33,7 @@ namespace APMCore.ViewModel.Helper {
                )",
 
             //Pairs
-            $@"Create Table Pairs
+            $@"Create Table If Not Exists {PairsTable}
                (
                    [{PairUID}]       Integer Not Null,
                    [{PairContainer}] Integer Not Null,
@@ -41,20 +41,47 @@ namespace APMCore.ViewModel.Helper {
                    [{PairDetail}]    Text    Not Null,
                    Primary Key([{PairUID}] Autoincrement),
                    Foreign Key([{ContainerUID}]) References {ContainersTable}([{ContainerUID}]) On Update Cascade 
-               )"
+               )" 
         };
-            ExecuteSqlCore(filePath, sqls);
-        }
-
-        public static void Empty(string filePath) {
-            string[] sqls = new string[] {
+        private static readonly string[] _tableEmptyer = new string[] {
+                // Pairs
                 $"Drop Table If Exists {PairsTable}",
+                // Containers
                 $"Drop Table If Exists {ContainersTable}",
+                // Filters
                 $"Drop Table If Exists {FiltersTable}",
             };
-            ExecuteSqlCore(filePath, sqls);
+        /// <summary>
+        /// 建立空表
+        /// </summary>
+        /// <param name="conn"></param>
+        public static void Create(SQLiteConnection conn) {
+            ExecuteSqlCore(conn, _tableCreater);
+        }
+        public static void Create(string filePath) {
+            if (!File.Exists(filePath)) {
+                SQLiteConnection.CreateFile(filePath);
+            }
+            ExecuteSqlCore(filePath, _tableEmptyer);
+        }
+        /// <summary>
+        /// 清空表内容
+        /// </summary>
+        /// <param name="conn"></param>
+        public static void Empty(SQLiteConnection conn) {
+            ExecuteSqlCore(conn, _tableEmptyer);
+        }
+        public static void Empty(string filePath) {
+            ExecuteSqlCore(filePath, _tableEmptyer);
         }
 
+        private static void ExecuteSqlCore(SQLiteConnection conn, string[] sqls) {
+            SQLiteCommand cmd = new SQLiteCommand(conn);
+            foreach (var sql in sqls) {
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+            }
+        }
         private static void ExecuteSqlCore(string filePath, string[] sqls) {
             SQLiteConnection conn = new SQLiteConnection($"data source = {filePath}");
             conn.Open();
