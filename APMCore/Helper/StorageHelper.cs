@@ -93,9 +93,9 @@ namespace APMCore.Helper {
             SQLiteConnection conn = new SQLiteConnection($"data source = {filePath}");
             conn.Open();
             SQLiteTransaction transaction = conn.BeginTransaction();
-            SQLiteCommand cmd = new SQLiteCommand(conn);
             ExecuteSqlCore(conn, sqls);
             transaction.Commit();
+            conn.Close();
         }
     }
 }

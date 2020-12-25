@@ -91,7 +91,7 @@ namespace APMControl {
             UserData userData = new UserData(source);
             userData.SaveToFile(filePath);
 
-            APMControl.Storage.CreateEmptyStorage(UserStorageFileName);
+            APMCore.ViewModel.StorageBase.CreateEmptyStorage(UserStorageFileName);
             File.Copy(UserStorageFileName, RuntimeStorageFileName);
             FileEncrypter encrypter = new FileEncrypter(new XOREncrypter("YZTXDY"));
             encrypter.Encrypt(RuntimeStorageFileName);
