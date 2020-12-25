@@ -45,11 +45,11 @@ namespace APMCore.Helper {
         /// <returns></returns>
         public static UpdateInformation Update(Container source, SQLiteConnection conn) {
             string sql= $@"Update {APM.ContainersTable} 
-                                 Set {APM.ContainerFilter}     =  {source.FilterUID}, 
-                                     {APM.ContainerHeader}     = '{source.Header}', 
-                                     {APM.ContainerDescrption} = '{source.Description}', 
-                                     {APM.ContainerAvatar}     = '{source.Avatar}' 
-                                 Where {APM.ContainerUID}      == {source.ContainerUID}";
+                           Set {APM.ContainerFilter}     =  {source.FilterUID}, 
+                               {APM.ContainerHeader}     = '{source.Header}', 
+                               {APM.ContainerDescrption} = '{source.Description}', 
+                               {APM.ContainerAvatar}     = '{source.Avatar}' 
+                           Where {APM.ContainerUID}      == {source.ContainerUID}";
             return ExecuteSqlCore(source, conn, sql, UpdateMethod.Update);
         }
         /// <summary>
@@ -60,16 +60,16 @@ namespace APMCore.Helper {
         /// <returns></returns>
         public static UpdateInformation Insert(Container source, SQLiteConnection conn) {
             string sql= $@"Insert Into {APM.ContainersTable}
-                                           ({APM.ContainerUID}, 
-                                            {APM.ContainerFilter}, 
-                                            {APM.ContainerHeader}, 
-                                            {APM.ContainerDescrption}, 
-                                            {APM.ContainerAvatar})
-                                     Values({source.ContainerUID}, 
-                                            {source.FilterUID}, 
-                                           '{source.Header}', 
-                                           '{source.Description}',
-                                           '{source.Avatar}')";
+                                        ({APM.ContainerUID}, 
+                                        {APM.ContainerFilter}, 
+                                        {APM.ContainerHeader}, 
+                                        {APM.ContainerDescrption}, 
+                                        {APM.ContainerAvatar})
+                                    Values({source.ContainerUID}, 
+                                        {source.FilterUID}, 
+                                        '{source.Header}', 
+                                        '{source.Description}',
+                                        '{source.Avatar}')";
             return ExecuteSqlCore(source, conn, sql, UpdateMethod.Insert);
         }
         /// <summary>
@@ -80,7 +80,7 @@ namespace APMCore.Helper {
         /// <returns></returns>
         public static UpdateInformation Delete(Container source, SQLiteConnection conn) {
             string sql = $@"Delete From {APM.ContainersTable} 
-                                 Where {APM.ContainerUID} == {source.ContainerUID} ";
+                            Where {APM.ContainerUID} == {source.ContainerUID} ";
             return ExecuteSqlCore(source, conn, sql, UpdateMethod.Delete);
         }
 
