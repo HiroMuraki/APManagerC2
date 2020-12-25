@@ -10,6 +10,7 @@ using System.IO;
 namespace Encrypter {
     public class AESEncrypter : IBytesEncrypter {
         const int _aesKeyLength = 16;
+        const int _aesBlockSize = _aesKeyLength * 8;
 
         private Aes _aes;
         private ICryptoTransform _encryter;
@@ -17,8 +18,9 @@ namespace Encrypter {
 
         public AESEncrypter(string key) {
             _aes = Aes.Create();
+            _aes.BlockSize = _aesBlockSize;
             _aes.Key = GetKey(key);
-            _aes.IV = new byte[_aes.BlockSize / 8];
+            _aes.IV = new byte[_aesKeyLength];
             for (int i = 0; i < _aesKeyLength; i++) {
                 _aes.IV[i] = _aes.Key[i];
             }
