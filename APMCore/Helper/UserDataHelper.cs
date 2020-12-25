@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Json;
 
-namespace APMCore.ViewModel.Helper {
+namespace APMCore.Helper {
     internal static class UserDataHelper {
         /// <summary>
         /// 

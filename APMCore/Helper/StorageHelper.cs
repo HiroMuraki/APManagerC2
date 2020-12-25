@@ -7,8 +7,11 @@ using System.Data.SQLite;
 using static APMCore.APM;
 using System.IO;
 
-namespace APMCore.ViewModel.Helper {
+namespace APMCore.Helper {
     internal static class StorageHelper {
+        /// <summary>
+        /// 创建储存表的SQL语句
+        /// </summary>
         private static readonly string[] _tableCreater = new string[] {
             //Filters
             $@"Create Table If Not Exists {FiltersTable}
@@ -43,6 +46,9 @@ namespace APMCore.ViewModel.Helper {
                    Foreign Key([{ContainerUID}]) References {ContainersTable}([{ContainerUID}]) On Update Cascade 
                )" 
         };
+        /// <summary>
+        /// 删除储存表的SQL语句
+        /// </summary>
         private static readonly string[] _tableEmptyer = new string[] {
                 // Pairs
                 $"Drop Table If Exists {PairsTable}",
@@ -51,6 +57,7 @@ namespace APMCore.ViewModel.Helper {
                 // Filters
                 $"Drop Table If Exists {FiltersTable}",
             };
+
         /// <summary>
         /// 建立空表
         /// </summary>
@@ -62,7 +69,7 @@ namespace APMCore.ViewModel.Helper {
             if (!File.Exists(filePath)) {
                 SQLiteConnection.CreateFile(filePath);
             }
-            ExecuteSqlCore(filePath, _tableEmptyer);
+            ExecuteSqlCore(filePath, _tableCreater);
         }
         /// <summary>
         /// 清空表内容
@@ -87,10 +94,7 @@ namespace APMCore.ViewModel.Helper {
             conn.Open();
             SQLiteTransaction transaction = conn.BeginTransaction();
             SQLiteCommand cmd = new SQLiteCommand(conn);
-            foreach (var sql in sqls) {
-                cmd.CommandText = sql;
-                cmd.ExecuteNonQuery();
-            }
+            ExecuteSqlCore(conn, sqls);
             transaction.Commit();
         }
     }

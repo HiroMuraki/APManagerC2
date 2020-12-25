@@ -5,6 +5,7 @@
     public class UIDGenerator {
         private readonly object _locker;
         private long _uid;
+
         /// <summary>
         /// 返回当前UID
         /// </summary>

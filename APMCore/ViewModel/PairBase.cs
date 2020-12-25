@@ -1,4 +1,4 @@
-﻿using APMCore.ViewModel.Helper;
+﻿using APMCore.Helper;
 
 namespace APMCore.ViewModel {
     /// <summary>

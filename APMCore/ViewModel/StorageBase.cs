@@ -1,4 +1,4 @@
-﻿using APMCore.ViewModel.Helper;
+﻿using APMCore.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -115,12 +115,7 @@ namespace APMCore.ViewModel {
         /// </summary>
         /// <param name="storageFile">数据库文件</param>
         public static void EmptyStorage(string storageFile) {
-            SQLiteConnection conn = new SQLiteConnection($"data source = {storageFile}");
-            conn.Open();
-            SQLiteTransaction transaction = conn.BeginTransaction();
-            EmptyStorage(conn);
-            transaction.Commit();
-            conn.Close();
+            StorageHelper.Empty(storageFile);
         }
         #endregion
 

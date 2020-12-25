@@ -19,8 +19,12 @@ namespace APMControl {
     }
 
     public class UserData : APMCore.ViewModel.UserDataBase, IUserData {
+        #region 事件
+        /// <summary>
+        /// 当数据库被加密时引发
+        /// </summary>
         public event EventHandler<StorageEncryptedEventArgs> StorageEncrypted;
-
+        #endregion
         #region 属性
         #region 公共属性
         /// <summary>
@@ -43,8 +47,8 @@ namespace APMControl {
 
         #region 私有字段
         private SQLiteConnection _dataBase;
-        private readonly object _storageFileLocker = new object();
-        private readonly object _userdataFileLocker = new object();
+        private readonly object _storageFileLocker;
+        private readonly object _userdataFileLocker;
         #endregion
         #endregion
 
@@ -54,7 +58,8 @@ namespace APMControl {
         /// </summary>
         /// <param name="source"></param>
         public UserData(APMCore.Model.UserData source) : base(source) {
-
+            _storageFileLocker = new object();
+            _userdataFileLocker = new object();
         }
         #endregion
 

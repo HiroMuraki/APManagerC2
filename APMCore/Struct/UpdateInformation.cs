@@ -2,7 +2,7 @@
     /// <summary>
     /// 更新信息
     /// </summary>
-    public struct UpdateInformation {
+    public readonly struct UpdateInformation {
         private readonly int _impacts;
         private readonly UpdateMethod _updateMethod;
         private readonly long _uid;

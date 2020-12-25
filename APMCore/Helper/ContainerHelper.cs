@@ -1,7 +1,7 @@
 ﻿using APMCore.Model;
 using System.Data.SQLite;
 
-namespace APMCore.ViewModel.Helper {
+namespace APMCore.Helper {
     internal static class ContainerHelper {
         /// <summary>
         /// 从指定数据库中抓取源

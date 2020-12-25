@@ -368,7 +368,8 @@ namespace APMControl {
 
         private async void Filter_StatusChangedAsync(object sender, APMCore.FilterStatusSwitchedEventArgs e) {
             Filter filter = sender as Filter;
-
+            //如果为单标签模式，则关闭除该标签外的其他标签
+            //否则视情况开关装载或隐藏Container
             if (IsSingleFilter) {
                 foreach (Filter f in Filters) {
                     f.ToggleOff();

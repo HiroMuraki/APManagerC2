@@ -1,4 +1,4 @@
-﻿using APMCore.ViewModel.Helper;
+﻿using APMCore.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
