@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using Encrypter.Interface;
 using System.Security.Cryptography;
 using System.IO;
+using static Encrypter.Common;
 
 namespace Encrypter {
     public class AESEncrypter : IBytesEncrypter {
-        const int _aesKeyLength = 16;
-        const int _aesBlockSize = _aesKeyLength * 8;
-
+        const int _aesKeyLength = 16; // AES密钥字节长度，默认为128位
+        const int _aesBlockSize = _aesKeyLength * BitPerByte; //AES加密块大小，设置为密钥长度*BitPerByte
+        
         private Aes _aes;
-        private ICryptoTransform _encryter;
-        private ICryptoTransform _decrypter;
-        private readonly int _encryptBufferSize = 32 * 8;
-        private readonly int _decryptBufferSize = 32 * 8 + 16;
+        private ICryptoTransform _encryter; // 加密转置
+        private ICryptoTransform _decrypter; // 解密转置
+        private readonly int _encryptBufferSize = 32 * BytePerKByte; // 加密缓冲区大小，设置为32KB
+        private readonly int _decryptBufferSize = 32 * BytePerKByte + 16; // 解密缓冲区大小，为加密缓冲区大小加上AES加密会导致多出的16字节
 
         public int EncryptBufferSize {
             get {
@@ -69,7 +70,8 @@ namespace Encrypter {
         private static byte[] GetKey(string key) {
             byte[] keys = new byte[_aesKeyLength];
             byte[] sourceKeys = Encoding.UTF8.GetBytes(key);
-
+            //从字符串中获取密钥，若字符串长度大于16，则取前16位
+            //若不足16位，则用0填充末尾
             for (int i = 0; i < _aesKeyLength; i++) {
                 if (i < sourceKeys.Length) {
                     keys[i] = sourceKeys[i];
@@ -77,7 +79,6 @@ namespace Encrypter {
                     keys[i] = 0;
                 }
             }
-
             return keys;
         }
         /// <summary>
@@ -97,6 +98,7 @@ namespace Encrypter {
                     output = memoryStream.ToArray();
                 }
             }
+
             return output;
         }
     }

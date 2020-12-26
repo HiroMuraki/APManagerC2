@@ -12,7 +12,6 @@ namespace Encrypter {
 
         public void Encrypt(string sourceFile, string outputFile) {
             ProcessCore(sourceFile, outputFile, _encrypter.Encrypt, _encrypter.EncryptBufferSize);
-
         }
         public void Encrypt(string sourceFile) {
             string tempFileName = GetTempFileName(sourceFile);
@@ -30,7 +29,7 @@ namespace Encrypter {
 
         private string GetTempFileName(string filePath) {
             string fileName = Path.GetFileNameWithoutExtension(filePath);
-            return $"__{fileName}__.temp";
+            return $"__{fileName}__.__fetemp__";
         }
         private void ProcessCore(string sourceFile, string outputFile, Func<byte[], byte[]> processor, int bufferSize) {
             byte[] buffer = new byte[bufferSize];

@@ -211,7 +211,7 @@ namespace APMControl {
 
         #region 辅助方法
         private async Task EncryptDataBaseAsync(string password) {
-            FileEncrypter encrypter = new FileEncrypter(new XOREncrypter(password));
+            FileEncrypter encrypter = new FileEncrypter(new AESEncrypter(password));
             if (File.Exists(StorageFile)) {
                 File.Delete(StorageFile);
                 await Task.Delay(TimeSpan.FromMilliseconds(100)); //等待100毫秒，确定文件处于空闲状态
@@ -225,7 +225,7 @@ namespace APMControl {
             }
         }
         private async Task DecryptDataBaseAsync(string password) {
-            FileEncrypter encrypter = new FileEncrypter(new XOREncrypter(password));
+            FileEncrypter encrypter = new FileEncrypter(new AESEncrypter(password));
             if (File.Exists(RuntimeStorageFileName)) {
                 File.Delete(RuntimeStorageFileName);
                 await Task.Delay(TimeSpan.FromMilliseconds(100));//等待109毫秒，确定文件处于空闲状态

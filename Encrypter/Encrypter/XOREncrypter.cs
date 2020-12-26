@@ -1,12 +1,13 @@
 ﻿using Encrypter.Interface;
 using System;
 using System.Text.RegularExpressions;
+using static Encrypter.Common;
 
 namespace Encrypter {
     public class XOREncrypter : IBytesEncrypter {
         private string _key;
-        private readonly int _encryptBufferSize = 32 * 1024;
-        private readonly int _decryptBufferSize = 32 * 1024;
+        private readonly int _encryptBufferSize = 32 * BytePerKByte;
+        private readonly int _decryptBufferSize = 32 * BytePerKByte;
 
         /// <summary>
         /// 密钥
