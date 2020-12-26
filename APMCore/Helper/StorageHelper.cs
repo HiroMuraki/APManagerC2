@@ -56,6 +56,8 @@ namespace APMCore.Helper {
                 $"Drop Table If Exists {ContainersTable}",
                 // Filters
                 $"Drop Table If Exists {FiltersTable}",
+                // 清空数据库冗余
+                $"VACUUM"
             };
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace APManagerC2 {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Application_Exit(object sender, ExitEventArgs e) {
-            _userData.CloseStorageAsync().Wait(TimeSpan.FromSeconds(1));
+            _userData.CloseStorageAsync().Wait(TimeSpan.FromSeconds(2));
         }
         /// <summary>
         /// 储存库加密时引发的事件
