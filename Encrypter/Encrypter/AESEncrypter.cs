@@ -10,9 +10,9 @@ using static Encrypter.Common;
 
 namespace Encrypter {
     public class AESEncrypter : IBytesEncrypter {
-        const int _aesKeyLength = 16; // AES密钥字节长度，默认为128位
-        const int _aesBlockSize = _aesKeyLength * BitPerByte; //AES加密块大小，设置为密钥长度*BitPerByte
-        
+        const int _aesKeyLength = 128 / BitPerByte; // AES密钥字节长度，默认为128 / BitPerByte，即16
+        const int _aesBlockSize = _aesKeyLength * BitPerByte; //AES加密块大小，设置为密钥长度 * BitPerByte
+
         private Aes _aes;
         private ICryptoTransform _encryter; // 加密转置
         private ICryptoTransform _decrypter; // 解密转置

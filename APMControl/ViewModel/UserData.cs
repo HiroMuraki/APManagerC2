@@ -214,13 +214,13 @@ namespace APMControl {
             FileEncrypter encrypter = new FileEncrypter(new AESEncrypter(password));
             if (File.Exists(StorageFile)) {
                 File.Delete(StorageFile);
-                await Task.Delay(TimeSpan.FromMilliseconds(100)); //等待100毫秒，确定文件处于空闲状态
+                await Task.Delay(TimeSpan.FromMilliseconds(100)); // 等待100毫秒，确定文件处于空闲状态
             }
             //向储存库写入数据
             lock (_storageFileLocker) {
                 File.Copy(RuntimeStorageFileName, StorageFile);
                 encrypter.Encrypt(StorageFile);
-                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                Thread.Sleep(TimeSpan.FromMilliseconds(100)); // 等待100毫秒，确定文件处于空闲状态
                 StorageEncrypted?.Invoke(this, new StorageEncryptedEventArgs(password));
             }
         }
@@ -228,13 +228,13 @@ namespace APMControl {
             FileEncrypter encrypter = new FileEncrypter(new AESEncrypter(password));
             if (File.Exists(RuntimeStorageFileName)) {
                 File.Delete(RuntimeStorageFileName);
-                await Task.Delay(TimeSpan.FromMilliseconds(100));//等待109毫秒，确定文件处于空闲状态
+                await Task.Delay(TimeSpan.FromMilliseconds(100)); // 等待100毫秒，确定文件处于空闲状态
             }
             //解密储存库
             lock (_storageFileLocker) {
                 File.Copy(StorageFile, RuntimeStorageFileName);
                 encrypter.Decrypt(RuntimeStorageFileName);
-                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                Thread.Sleep(TimeSpan.FromMilliseconds(100)); // 等待100毫秒，确定文件处于空闲状态
                 File.SetAttributes(RuntimeStorageFileName, FileAttributes.Hidden);
             }
         }

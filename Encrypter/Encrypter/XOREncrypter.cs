@@ -6,8 +6,8 @@ using static Encrypter.Common;
 namespace Encrypter {
     public class XOREncrypter : IBytesEncrypter {
         private string _key;
-        private readonly int _encryptBufferSize = 32 * BytePerKByte;
-        private readonly int _decryptBufferSize = 32 * BytePerKByte;
+        private readonly int _encryptBufferSize = 32 * BytePerKByte; //设置32KB的加密缓冲
+        private readonly int _decryptBufferSize = 32 * BytePerKByte; //设置32KB的解密缓冲
 
         /// <summary>
         /// 密钥
