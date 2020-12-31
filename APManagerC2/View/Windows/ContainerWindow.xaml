@@ -132,7 +132,7 @@
             <ColumnDefinition Width="2.5*"/>
         </Grid.ColumnDefinitions>
         <!--左半部分-->
-        <Grid Grid.Column="0"  Background="{StaticResource ColorMainDarkBlue}">
+        <Grid Grid.Column="0"  Background="{Binding Filter.Identifier, Converter={StaticResource StringToColor}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
@@ -169,7 +169,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <!--顶部栏-->
-            <Grid Grid.Row="0" Background="{StaticResource ColorMainLightBlue}" MouseLeftButtonDown="Window_Move">
+            <Grid Grid.Row="0" Background="{Binding Filter.Identifier, Converter={StaticResource StringToColor}}" MouseLeftButtonDown="Window_Move">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
