@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <None Remove="Resources\defaultavatar.png" />
+    <None Remove="Resources\Images\account.png" />
     <None Remove="Resources\Images\AddDataItem.png" />
     <None Remove="Resources\Images\AddMain.png" />
     <None Remove="Resources\Images\AddTimeStamp.png" />
@@ -51,6 +52,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\defaultavatar.png" />
+    <Resource Include="Resources\Images\Account.png" />
     <Resource Include="Resources\Images\AddDataItem.png" />
     <Resource Include="Resources\Images\AddMain.png" />
     <Resource Include="Resources\Images\AddTimeStamp.png" />

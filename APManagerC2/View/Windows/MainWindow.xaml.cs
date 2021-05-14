@@ -91,6 +91,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void AddFilter_Click(object sender, RoutedEventArgs e) {
             _commandHandler.AddFilter();
+            FilterListScroller.ScrollToBottom();
             e.Handled = true;
         }
         /// <summary>
@@ -174,6 +175,7 @@ namespace APManagerC2.View {
         /// <param name="e"></param>
         private void AddContainer_Click(object sender, RoutedEventArgs e) {
             _commandHandler.AddContainer();
+            ContainerListScroller.ScrollToBottom();
             e.Handled = true;
         }
         /// <summary>
@@ -218,7 +220,8 @@ namespace APManagerC2.View {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void DataLabelArea_Drop(object sender, DragEventArgs e) {
-            Message.Show("YZTXDY!");
+            // Message.Show("YZTXDY!");
+            Message.Show("是彩蛋！但是毫无意义(/▽＼)");
             e.Handled = true;
         }
         #endregion

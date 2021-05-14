@@ -16,9 +16,9 @@
             <Viewbox Margin="5">
                 <Button Style="{StaticResource AvatarButton}" Click="AvatarButton_Click"
                     Background="{Binding Avatar,Converter={StaticResource StringToUserAvatar}}">
-                    <Button.Effect>
+                    <!--Button.Effect>
                         <DropShadowEffect BlurRadius="5" ShadowDepth="3" Opacity="0.5"/>
-                    </Button.Effect>
+                    </Button.Effect-->
                 </Button>
             </Viewbox>
         </Grid>

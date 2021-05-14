@@ -42,11 +42,8 @@ namespace APManagerC2.Command {
                 await _userData.SaveUserDataAsync(UserDataFileName);
                 _window.Close();
             }
-            catch (StorageFileIOException) {
-                Message.Show("当前无法保存文件，请稍后再试", "保存错误", MessageType.Warning);
-            }
             catch (InvalidUserPasswordException) {
-                Message.Show("密码长度应为4-16位，且只含除空格外的ASCII可打印字符", "保存错误", MessageType.Warning);
+                Message.Show("密码长度应为4-16位，且只含字母，数字与特殊符号（如@）", "保存错误", MessageType.Warning);
             }
             catch (Exception e) {
                 Message.Show(e.Message, $"保存错误", MessageType.Warning);

@@ -21,7 +21,7 @@ namespace APMControl {
         public bool IsSingleFilter {
             get {
                 return Application.Current.Dispatcher.Invoke(() => {
-                    return Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt);
+                    return !(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift));
                 });
             }
         }
@@ -149,9 +149,9 @@ namespace APMControl {
             await Task.Run(() => {
                 lock (_containersLocker) {
                     _containers.Clear();
-                    Regex re = new Regex($@"{key}");
+                    Regex re = new Regex($@"{key.ToLower()}");
                     Predicate<APMCore.Model.Container> predicate = (APMCore.Model.Container c) => {
-                        if (re.IsMatch(c.Header) || re.IsMatch(c.Description)) {
+                        if (re.IsMatch(c.Header.ToLower()) || re.IsMatch(c.Description.ToLower())) {
                             return true;
                         }
                         return false;
@@ -191,11 +191,13 @@ namespace APMControl {
                         foreach (Container container in _containers) {
                             container.Opacity = 1;
                         }
-                    } else {
+                    }
+                    else {
                         foreach (Container container in _containers) {
                             if (container.FilterUID == f.FilterUID) {
                                 container.Opacity = 1;
-                            } else {
+                            }
+                            else {
                                 container.Opacity = 0.25;
                             }
                         }
@@ -212,7 +214,8 @@ namespace APMControl {
             Filter filter = await Task.Run(() => {
                 APMCore.Model.Filter source = new APMCore.Model.Filter(_filterUIDGenerator.Get());
                 Filter filter = new Filter(source) {
-                    DataBase = DataBase
+                    DataBase = DataBase,
+                    Identifier = "#FF006AAB"
                 };
                 return filter;
             });
@@ -376,12 +379,14 @@ namespace APMControl {
                 }
                 filter.ToggleOn();
                 await ReloadContainersAsync();
-            } else {
+            }
+            else {
                 if (filter.IsOn) {
                     await Task.Run(() => {
                         LoadContainersHelper(filter.FetchContainers((c) => true));
                     });
-                } else {
+                }
+                else {
                     await Task.Run(() => {
                         UnloadContainersHelper(filter.FetchContainers((c) => true));
                     });

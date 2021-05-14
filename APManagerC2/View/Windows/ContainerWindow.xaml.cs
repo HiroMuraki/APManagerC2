@@ -83,6 +83,14 @@ namespace APManagerC2.View {
             e.Handled = true;
         }
         /// <summary>
+        /// 添加数据条目组
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddPairs_Click(object sender, RoutedEventArgs e) {
+            _commandHandler.AddPairs((sender as FrameworkElement).Tag as string);
+        }
+        /// <summary>
         /// 删除数据条目
         /// </summary>
         /// <param name="sender"></param>
@@ -169,7 +177,5 @@ namespace APManagerC2.View {
         private static APMControl.Filter GetFilterFromControl(object sender) {
             return (sender as FrameworkElement).Tag as APMControl.Filter;
         }
-
-        
     }
 }

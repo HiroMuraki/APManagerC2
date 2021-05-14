@@ -34,11 +34,12 @@
     <BitmapImage x:Key="Warning" UriSource="/APManagerC2;component/Resources/Images/Warning.png"/>
     <BitmapImage x:Key="TxtIco" UriSource="/APManagerC2;component/Resources/Images/txtIco.png"/>
     <BitmapImage x:Key="Setting" UriSource="/APManagerC2;component/Resources/Images/Setting.png"/>
+    <BitmapImage x:Key="Account" UriSource="/APManagerC2;component/Resources/Images/Account.png"/>
 
     <!--数据容器项目操作图标-->
     <BitmapImage x:Key="Add" UriSource="/APManagerC2;component/Resources/Images/AddDataItem.png"/>
     <BitmapImage x:Key="AddTimeStamp" UriSource="/APManagerC2;component/Resources/Images/AddTimeStamp.png"/>
-    <BitmapImage x:Key="randomData" UriSource="/APManagerC2;component/Resources/Images/randomData.png"/>
+    <BitmapImage x:Key="RandomData" UriSource="/APManagerC2;component/Resources/Images/randomData.png"/>
     <BitmapImage x:Key="Clean" UriSource="/APManagerC2;component/Resources/Images/Clean.png"/>
     <BitmapImage x:Key="Save2" UriSource="/APManagerC2;component/Resources/Images/Save2.png"/>
 

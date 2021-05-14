@@ -52,7 +52,8 @@ namespace APManagerC2.Command {
                 if (message.ShowDialog() == true) {
                     await _userData.Storage.RemoveFilterAsync(filter);
                 }
-            } else {
+            }
+            else {
                 await _userData.Storage.RemoveFilterAsync(filter);
             }
         }
@@ -119,7 +120,8 @@ namespace APManagerC2.Command {
                 if (message.ShowDialog() == true) {
                     await _userData.Storage.RemoveContainerAsync(container);
                 }
-            } else {
+            }
+            else {
                 await _userData.Storage.RemoveContainerAsync(container);
             }
 
@@ -175,6 +177,7 @@ namespace APManagerC2.Command {
         /// </summary>
         public async void SaveStorage() {
             try {
+                await _userData.SaveUserDataAsync(APM.UserDataFileName);
                 await _userData.SaveStorageAsync();
             }
             catch (StorageFileIOException) {

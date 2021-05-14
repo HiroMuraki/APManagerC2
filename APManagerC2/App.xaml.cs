@@ -52,7 +52,7 @@ namespace APManagerC2 {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void UserData_StorageEncrypted(object sender, StorageEncryptedEventArgs e) {
-            Message.Show($"已保存并对储存库进行了重新加密\n密钥为：{e.Password}", "保存成功", MessageType.Notice);
+            Message.Show($"已保存并对储存库进行了重新加密\n密码：{e.Password}", "保存成功", MessageType.Notice);
         }
         /// <summary>
         /// 启动检查

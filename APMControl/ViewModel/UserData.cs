@@ -80,9 +80,9 @@ namespace APMControl {
         public static void CreateEmptyUserData(string filePath) {
             APMCore.Model.UserData source = new APMCore.Model.UserData() {
                 Avatar = UserAvatarFileName,
-                UserName = "YZTXDY",
-                UserPassword = HashString.SHA("YZTXDY"),
-                Description = "The first motto",
+                UserName = "AAA",
+                UserPassword = HashString.SHA("000000"),
+                Description = "CatCatHead",
                 ColumnSize = 3,
                 IsEditMode = false,
                 Storage = UserStorageFileName
@@ -93,7 +93,7 @@ namespace APMControl {
 
             APMCore.ViewModel.StorageBase.CreateEmptyStorage(UserStorageFileName);
             File.Copy(UserStorageFileName, RuntimeStorageFileName);
-            FileEncrypter encrypter = new FileEncrypter(new AESEncrypter("YZTXDY"));
+            FileEncrypter encrypter = new FileEncrypter(new AESEncrypter("000000"));
             encrypter.Encrypt(RuntimeStorageFileName);
             File.Copy(RuntimeStorageFileName, UserStorageFileName, true);
         }
@@ -161,20 +161,7 @@ namespace APMControl {
             if (!Regex.IsMatch(UserPassword, APM.UserPasswordRegular)) {
                 throw new InvalidUserPasswordException();
             }
-            string passwordBackup = UserPassword;
-            UserPassword = HashString.SHA(UserPassword);
-            try {
-                await Task.Run(() => {
-                    lock (_userdataFileLocker) {
-                        base.SaveToFile(filePath);
-                    }
-                });
-                await EncryptDataBaseAsync(passwordBackup);
-            }
-            catch {
-                throw new StorageFileIOException();
-            }
-            UserPassword = passwordBackup;
+            await Task.Run(()=> { });
         }
         /// <summary>
         /// 保存储存库
@@ -182,8 +169,8 @@ namespace APMControl {
         /// <returns></returns>
         public async Task SaveStorageAsync() {
             try {
-                await Storage.UpdateToSourceAsync();
-                await EncryptDataBaseAsync(UserPassword);
+                await SaveUserDataCoreAsync(APM.UserDataFileName);
+                await SaveStorageCoreAsync();
             }
             catch {
                 throw new StorageFileIOException();
@@ -210,6 +197,22 @@ namespace APMControl {
         #endregion
 
         #region 辅助方法
+
+        private async Task SaveUserDataCoreAsync(string filePath) {
+            string passwordBackup = UserPassword;
+            UserPassword = HashString.SHA(UserPassword);
+            await Task.Run(() => {
+                lock (_userdataFileLocker) {
+                    base.SaveToFile(filePath);
+                }
+            });
+            UserPassword = passwordBackup;
+        }
+        private async Task SaveStorageCoreAsync() {
+            await _storage.UpdateToSourceAsync();
+            await EncryptDataBaseAsync(UserPassword);
+        }
+
         private async Task EncryptDataBaseAsync(string password) {
             FileEncrypter encrypter = new FileEncrypter(new AESEncrypter(password));
             if (File.Exists(StorageFile)) {

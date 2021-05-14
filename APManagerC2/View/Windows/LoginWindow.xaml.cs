@@ -22,11 +22,10 @@ namespace APManagerC2.View {
         }
         public string InputPassword {
             get {
-                return _inputPassword;
+                return InputBox.Password;
             }
             set {
-                _inputPassword = value;
-                OnPropertyChanged(nameof(InputPassword));
+                InputBox.Password = value;
             }
         }
         #endregion
@@ -34,16 +33,15 @@ namespace APManagerC2.View {
         #region 私有字段
         private LoginWindowCommandHandler _commandHandler;
         private readonly APMControl.UserData _userData;
-        private string _inputPassword;
         #endregion
         #endregion
 
         #region 构造函数
         public LoginWindow(APMControl.UserData userData) {
             _userData = userData;
-            InputPassword = "";
             _commandHandler = new LoginWindowCommandHandler(this);
             InitializeComponent();
+            InputPassword = "";
         }
         #endregion
 

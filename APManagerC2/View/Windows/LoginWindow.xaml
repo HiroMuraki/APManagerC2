@@ -84,13 +84,68 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2" Background="{StaticResource ColorMainDarkBlue}">
-            <View:IconTextBox x:Name="InputBox" 
-                 Text="{Binding ElementName=WindowSelf,Path=InputPassword,UpdateSourceTrigger=PropertyChanged}" Height="30" 
+            <PasswordBox x:Name="InputBox"
+                 Height="30" 
                  Width="210">
-                <View:IconTextBox.Icon>
-                    <Image Source="{StaticResource TxtIco}"/>
-                </View:IconTextBox.Icon>
-            </View:IconTextBox>
+                <PasswordBox.Style>
+                    <Style TargetType="{x:Type PasswordBox}">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="Foreground" Value="{StaticResource ColorMainLightBlack}"/>
+                        <Setter Property="CaretBrush" Value="{StaticResource ColorMainLightBlack}"/>
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                    <Border Background="White" CornerRadius="3">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0">
+                                                <Viewbox>
+                                                    <Image Source="{StaticResource TxtIco}" Width="50" Height="50"
+                                                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </Viewbox>
+                                            </Grid>
+                                            <Grid Grid.Column="1" VerticalAlignment="Center" Margin="3">
+                                                <ScrollViewer x:Name="PART_ContentHost" />
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Width"
+                                         By="90"
+                                         AccelerationRatio="0.2"
+                                         DecelerationRatio="0.8"
+                                         Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Width"
+                                         AccelerationRatio="0.2"
+                                         DecelerationRatio="0.8"
+                                         Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </PasswordBox.Style>
+            </PasswordBox>
         </Grid>
     </Grid>
 </Window>

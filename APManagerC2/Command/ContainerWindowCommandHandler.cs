@@ -29,9 +29,9 @@ namespace APManagerC2.Command {
         /// <summary>
         /// 添加数据条目
         /// </summary>
-        public async void AddPair(string name) {
+        public async void AddPair(string pairType) {
             IPair pair = await _container.AddPairAsync();
-            switch (name) {
+            switch (pairType) {
                 case "empty":
                     break;
                 case "time":
@@ -42,7 +42,7 @@ namespace APManagerC2.Command {
                     pair.Detail = await RandomString.GetStringAsync(16, StringType.UpperAlpha | StringType.LowerAlpha | StringType.Number);
                     break;
                 default:
-                    throw new InvalidOperationException($"无效的操作: {name}");
+                    throw new InvalidOperationException($"无效的操作: {pairType}");
             }
         }
         /// <summary>
@@ -50,6 +50,25 @@ namespace APManagerC2.Command {
         /// </summary>
         public async void RemovePair(Pair pair) {
             await _container.RemovePairAsync(pair);
+        }
+        /// <summary>
+        /// 添加数据组
+        /// </summary>
+        public async void AddPairs(string pairListType) {
+            switch (pairListType) {
+                case "account":
+                    IPair pair1 = await _container.AddPairAsync();
+                    pair1.Title = "用户名";
+                    IPair pair2 = await _container.AddPairAsync();
+                    pair2.Title = "密码";
+                    IPair pair3 = await _container.AddPairAsync();
+                    pair3.Title = "邮箱";
+                    IPair pair4 = await _container.AddPairAsync();
+                    pair4.Title = "手机号";
+                    break;
+                default:
+                    throw new InvalidOperationException($"无效的操作: {pairListType}"); ;
+            }
         }
 
         /// <summary>

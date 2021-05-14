@@ -12,6 +12,7 @@
         Height="565" Width="960" 
         MinWidth="{Binding ElementName=UserArea,Path=ActualWidth}" 
         MinHeight="{Binding ElementName=UserArea,Path=ActualHeight}"
+        FocusManager.FocusedElement="{Binding ElementName=SearchBar}"
         AllowDrop="True">
     <Window.Triggers>
         <EventTrigger RoutedEvent="DragDrop.DragEnter">
@@ -68,7 +69,7 @@
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="identifier"
                                                  Storyboard.TargetProperty="Width"
-                                                 To="10"
+                                                 To="15"
                                                  AccelerationRatio="0.2"
                                                  DecelerationRatio="0.8"
                                                  Duration="0:0:0.15"/>
@@ -90,7 +91,7 @@
                     </EventTrigger.Actions>
                 </EventTrigger>
             </DataTemplate.Triggers>
-            <Grid Height="50" Tag="{Binding}" Margin="0" MouseEnter="DataFilter_MouseEnter" MouseLeave="DataFilter_MouseLeave"
+            <Grid Height="50" Tag="{Binding}" Margin="0,0,0,1" MouseEnter="DataFilter_MouseEnter" MouseLeave="DataFilter_MouseLeave"
                   MouseLeftButtonDown="ToggleFilter_Click" Focusable="False" ToolTip="{Binding}">
                 <Grid.ContextMenu>
                     <ContextMenu>
@@ -98,9 +99,9 @@
                         <MenuItem Header="删除" Tag="{Binding}" Click="RemoveFilter_Click"/>
                     </ContextMenu>
                 </Grid.ContextMenu>
-                <Grid.Effect>
+                <!--Grid.Effect>
                     <DropShadowEffect BlurRadius="5" ShadowDepth="3" Opacity="0.25"/>
-                </Grid.Effect>
+                </Grid.Effect-->
                 <Border CornerRadius="2" Background="{Binding IsOn,Converter={StaticResource FilterIsOnToColor}}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -109,7 +110,7 @@
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" CornerRadius="2,0,0,2" 
                                 Background="{Binding Identifier,Converter={StaticResource StringToColor}}" 
-                                Width="0" x:Name="identifier"/>
+                                Width="5" x:Name="identifier"/>
                         <Grid Grid.Column="1">
                             <Label x:Name="labelText" Content="{Binding Name}" VerticalAlignment="Center" Margin="3,0" 
                                    FontSize="16" BorderThickness="0" HorizontalAlignment="Left" IsHitTestVisible="False"
@@ -137,12 +138,12 @@
                                                  AccelerationRatio="0.2"
                                                  DecelerationRatio="0.8"
                                                  Duration="0:0:0.15"/>
-                                <DoubleAnimation Storyboard.TargetName="ShadowEffect"
+                                <!--DoubleAnimation Storyboard.TargetName="ShadowEffect"
                                                  Storyboard.TargetProperty="Opacity"
                                                  To="0.20"
                                                  AccelerationRatio="0.2"
                                                  DecelerationRatio="0.8"
-                                                 Duration="0:0:0.15"/>
+                                                 Duration="0:0:0.15"/-->
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
@@ -161,17 +162,17 @@
                                                  AccelerationRatio="0.2"
                                                  DecelerationRatio="0.8"
                                                  Duration="0:0:0.15"/>
-                                <DoubleAnimation Storyboard.TargetName="ShadowEffect"
+                                <!--DoubleAnimation Storyboard.TargetName="ShadowEffect"
                                                  Storyboard.TargetProperty="Opacity"
                                                  AccelerationRatio="0.2"
                                                  DecelerationRatio="0.8"
-                                                 Duration="0:0:0.15"/>
+                                                 Duration="0:0:0.15"/-->
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
                 </EventTrigger>
             </DataTemplate.Triggers>
-            <Grid Opacity="{Binding Opacity}" Tag="{Binding}" Margin="20"
+            <Grid Opacity="{Binding Opacity}" Tag="{Binding}" Margin="15"
                   MouseLeftButtonDown="OpenContainer_Click" Focusable="False" ToolTip="{Binding}">
                 <Grid.ContextMenu>
                     <ContextMenu>
@@ -180,9 +181,9 @@
                         <MenuItem Tag="{Binding}" Header="设为模板" Click="SetContaienrToTemplate_CLick"/>
                     </ContextMenu>
                 </Grid.ContextMenu>
-                <Grid.Effect>
+                <!--Grid.Effect>
                     <DropShadowEffect x:Name="ShadowEffect" BlurRadius="20" ShadowDepth="1" Opacity="0.1"/>
-                </Grid.Effect>
+                </Grid.Effect-->
                 <Grid x:Name="MainModule" Width="215" Height="115" Background="{Binding Filter.Identifier,Converter={StaticResource StringToColor}}">
                     <Grid.Clip>
                         <RectangleGeometry Rect="0,0,215,115" RadiusX="5" RadiusY="5"/>
@@ -361,7 +362,7 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" x:Name="UserArea">
                     <View:UserInfromationLabel DataContext="{Binding UserData}" Width="105" Margin="15"
-                                               ClickAvatar="UserLabelAvatar_Click"/>
+                                               Focusable="False" ClickAvatar="UserLabelAvatar_Click"/>
                 </Grid>
                 <Grid Grid.Row="1" Margin="15,0,20,20">
                     <Grid.RowDefinitions>
@@ -392,7 +393,7 @@
                                             Background="{StaticResource ColorMainLightBlue}" Foreground="White"
                                             Click="InverseFiltersStatus_Click"/>
                     </Grid>
-                    <ScrollViewer Grid.Row="1" Style="{StaticResource ScrollViewerGeneral}" Margin="-5,0,0,0"
+                    <ScrollViewer x:Name="FilterListScroller" Grid.Row="1" Style="{StaticResource ScrollViewerGeneral}" Margin="-5,0,0,0"
                                   Focusable="False">
                         <ItemsControl ItemsSource="{Binding UserData.Storage.Filters}"
                                       ItemTemplate="{StaticResource ResourceKey=FilterDataTemplate}">
@@ -447,7 +448,7 @@
                 </Grid>
                 <Grid Grid.Row="1" Background="{StaticResource ColorMainLigthWhite}"
                       Drop="DataLabelArea_Drop" AllowDrop="True">
-                    <ScrollViewer Focusable="False">
+                    <ScrollViewer x:Name="ContainerListScroller" Focusable="False" Margin="5">
                         <Viewbox VerticalAlignment="Top">
                             <ItemsControl ItemsSource="{Binding UserData.Storage.Containers}"
                                           ItemTemplate="{StaticResource ContainerDataTemplate}">
@@ -467,7 +468,7 @@
                         <Viewbox Margin="150">
                             <Border BorderThickness="1" BorderBrush="{StaticResource ColorMainMediumBlack}"
                                 Background="White" CornerRadius="5">
-                                <Label Content="拖动至此处载入数据包" Foreground="{StaticResource ColorMainMediumBlack}"
+                                <Label Content="拖动至此处载入数据包?" Foreground="{StaticResource ColorMainMediumBlack}"
                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
                         </Viewbox>

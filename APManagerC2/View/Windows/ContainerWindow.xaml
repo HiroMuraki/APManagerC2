@@ -270,6 +270,7 @@
             <Grid Grid.Row="3" Background="White">
                 <StackPanel Grid.Row="3" VerticalAlignment="Bottom"  Margin="15,0" 
                         Orientation="Horizontal" HorizontalAlignment="Right">
+                    <!--功能组1-->
                     <View:GeneralButton Tag="time" ToolTip="添加时间戳" Padding="6" InitOpacity="0.5"
                         BorderThickness="0" Width="35" Height="35" Click="AddPair_Click">
                         <Image Source="{StaticResource AddTimeStamp}"/>
@@ -280,10 +281,17 @@
                     </View:GeneralButton>
                     <View:GeneralButton Tag="random" ToolTip="添加随机数据" Padding="1" InitOpacity="0.5"
                                     BorderThickness="0" Width="35" Height="35" Click="AddPair_Click">
-                        <Image Source="{StaticResource randomData}"/>
+                        <Image Source="{StaticResource RandomData}"/>
                     </View:GeneralButton>
-                    <Label Height="20" Width="1" Background="{StaticResource ColorGray}" Margin="5,0"/>
-                    <View:GeneralButton x:Name="CleanBlankItemsButton" ToolTip="清理空白数据项目" Padding="6" InitOpacity="0.5"
+                    <!--功能组2-->
+                    <Label Height="20" Width="1" Background="{StaticResource ColorGray}" Margin="10,0"/>
+                    <View:GeneralButton Tag="account" ToolTip="添加账号" Padding="1" InitOpacity="0.5"
+                                    BorderThickness="0" Width="35" Height="35" Click="AddPairs_Click">
+                        <Image Source="{StaticResource Account}"/>
+                    </View:GeneralButton>
+                    <!--功能组2-->
+                    <Label Height="20" Width="1" Background="{StaticResource ColorGray}" Margin="10,0"/>
+                    <View:GeneralButton ToolTip="清理空白数据项目" Padding="6" InitOpacity="0.5"
                                     BorderThickness="0" Width="35" Height="35" Click="ClearEmptyPairs_Click">
                         <Image Source="{StaticResource Clean}"/>
                     </View:GeneralButton>
